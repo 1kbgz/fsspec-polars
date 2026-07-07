@@ -1,0 +1,21 @@
+fsspec_polars
+=============
+
+.. py:module:: fsspec_polars
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   fsspec_polars.__version__
+
+
+Package Contents
+----------------
+
+.. py:data:: __version__
+   :value: '0.1.0'
+
+
