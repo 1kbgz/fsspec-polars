@@ -1,0 +1,20 @@
+[package]
+name = "fsspec_polars"
+version = "0.1.0"
+authors = ["the fsspec-polars authors <dev@1kbgz.com>"]
+edition = "2021"
+license = "Apache-2.0"
+readme = "../README.md"
+repository = "https://github.com/1kbgz/fsspec-polars"
+description = "Polars lazy integration for fsspec (fsspec-db)"
+
+[lib]
+name = "fsspec_polars"
+path = "src/lib.rs"
+crate-type = ["rlib"]
+
+[dependencies]
+
+[profile.test.junit]
+path = "junit.xml"
+
