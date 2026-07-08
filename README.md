@@ -9,5 +9,34 @@ Polars lazy integration for fsspec (fsspec-db)
 
 ## Overview
 
+`fsspec-polars` provides Polars lazy scans for fsspec-backed database filesystems,
+starting with `fsspec-db`.
+
+```python
+import polars as pl
+from fsspec_polars import scan_db_relation
+
+users = scan_db_relation(
+    "db+sqlite",
+    "/main/users",
+    storage_options={"database": "app.db"},
+)
+
+result = users.filter(pl.col("score") > 2).select("name").limit(10).collect()
+```
+
+The scan source receives Polars projection, predicate, and row-limit hints. Relation
+scans map supported hints onto fsspec-db path query parameters such as
+`?columns=`, `?where=`, and `?limit=`. SQL scans use `query()` and can wrap the
+original SQL when SQL pushdown helpers are available.
+
+Predicate SQL translation is optional. Install the `pushdown` extra to use
+`polars-io-tools` for Polars expression to SQL translation. Unsupported predicates
+are applied locally after reading from the backend.
+
+When `schema=` is not supplied, scans infer it with a zero-row backend query during
+`LazyFrame` construction. Pass `schema=` to avoid that construction-time database
+round trip.
+
 > [!NOTE]
 > This library was generated using [copier](https://copier.readthedocs.io/en/stable/) from the [Base Python Project Template repository](https://github.com/python-project-templates/base).
