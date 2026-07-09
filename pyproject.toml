@@ -31,9 +31,17 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 
-dependencies = []
+dependencies = [
+    "fsspec",
+    "fsspec-db",
+    "polars",
+    "pyarrow",
+]
 
 [project.optional-dependencies]
+pushdown = [
+    "polars-io-tools>=0.1.1; python_version >= '3.11'",
+]
 develop = [
     "build",
     "bump-my-version",
@@ -47,6 +55,7 @@ develop = [
     "pytest",
     "pytest-cov",
     "ruff",
+    "sqlglot",
     "twine",
     "ty",
     "uv",
@@ -199,4 +208,3 @@ title = "fsspec-polars"
 root = "README.md"
 pages = []
 use-autoapi = true
-
