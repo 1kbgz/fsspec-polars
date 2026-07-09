@@ -11,6 +11,7 @@ Classes
 
    test_all.FakeRelationFileSystem
    test_all.FakeSqlFileSystem
+   test_all.RecordingFileSystem
 
 
 Functions
@@ -23,6 +24,7 @@ Functions
    test_all.test_scan_db_relation_pushes_supported_predicate
    test_all.test_scan_db_relation_filters_locally_when_predicate_is_not_supported
    test_all.test_scan_db_relation_reads_registered_fsspec_db
+   test_all.test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db
    test_all.test_scan_db_sql_uses_query_pushdown
    test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails
    test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed
@@ -56,6 +58,19 @@ Module Contents
    .. py:method:: query(sql, params=None)
 
 
+.. py:class:: RecordingFileSystem(inner)
+
+   .. py:attribute:: inner
+
+
+   .. py:attribute:: paths
+      :value: []
+
+
+
+   .. py:method:: cat_file(path)
+
+
 .. py:function:: test_scan_db_relation_pushes_projection_and_limit()
 
 .. py:function:: test_scan_db_relation_pushes_supported_predicate(monkeypatch)
@@ -63,6 +78,8 @@ Module Contents
 .. py:function:: test_scan_db_relation_filters_locally_when_predicate_is_not_supported(monkeypatch)
 
 .. py:function:: test_scan_db_relation_reads_registered_fsspec_db(tmp_path)
+
+.. py:function:: test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db(tmp_path)
 
 .. py:function:: test_scan_db_sql_uses_query_pushdown(monkeypatch)
 

@@ -256,6 +256,9 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#test_all.FakeSqlFileSystem" title="test_all.FakeSqlFileSystem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FakeSqlFileSystem</span></code></a></p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#test_all.RecordingFileSystem" title="test_all.RecordingFileSystem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecordingFileSystem</span></code></a></p></td>
+<td><p></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -280,13 +283,16 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#test_all.test_scan_db_relation_reads_registered_fsspec_db" title="test_all.test_scan_db_relation_reads_registered_fsspec_db"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_relation_reads_registered_fsspec_db</span></code></a>(tmp_path)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#test_all.test_scan_db_sql_uses_query_pushdown" title="test_all.test_scan_db_sql_uses_query_pushdown"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_sql_uses_query_pushdown</span></code></a>(monkeypatch)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#test_all.test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db" title="test_all.test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db</span></code></a>(...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails" title="test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_sql_filters_locally_when_sql_pushdown_fails</span></code></a>(...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#test_all.test_scan_db_sql_uses_query_pushdown" title="test_all.test_scan_db_sql_uses_query_pushdown"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_sql_uses_query_pushdown</span></code></a>(monkeypatch)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed" title="test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_sql_pushdown_helpers_use_polars_io_tools_when_installed</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails" title="test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_sql_filters_locally_when_sql_pushdown_fails</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed" title="test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_sql_pushdown_helpers_use_polars_io_tools_when_installed</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -335,6 +341,26 @@
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="test_all.RecordingFileSystem">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">RecordingFileSystem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inner</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.RecordingFileSystem" title="Link to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="test_all.RecordingFileSystem.inner">
+<span class="sig-name descname"><span class="pre">inner</span></span><a class="headerlink" href="#test_all.RecordingFileSystem.inner" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="test_all.RecordingFileSystem.paths">
+<span class="sig-name descname"><span class="pre">paths</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#test_all.RecordingFileSystem.paths" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="test_all.RecordingFileSystem.cat_file">
+<span class="sig-name descname"><span class="pre">cat_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.RecordingFileSystem.cat_file" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="test_all.test_scan_db_relation_pushes_projection_and_limit">
 <span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_scan_db_relation_pushes_projection_and_limit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_scan_db_relation_pushes_projection_and_limit" title="Link to this definition">¶</a></dt>
@@ -353,6 +379,11 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="test_all.test_scan_db_relation_reads_registered_fsspec_db">
 <span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_scan_db_relation_reads_registered_fsspec_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_scan_db_relation_reads_registered_fsspec_db" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="test_all.test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db">
+<span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -444,10 +475,17 @@
 <li><a class="reference internal" href="#test_all.FakeSqlFileSystem.query"><code class="docutils literal notranslate"><span class="pre">FakeSqlFileSystem.query()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#test_all.RecordingFileSystem"><code class="docutils literal notranslate"><span class="pre">RecordingFileSystem</span></code></a><ul>
+<li><a class="reference internal" href="#test_all.RecordingFileSystem.inner"><code class="docutils literal notranslate"><span class="pre">RecordingFileSystem.inner</span></code></a></li>
+<li><a class="reference internal" href="#test_all.RecordingFileSystem.paths"><code class="docutils literal notranslate"><span class="pre">RecordingFileSystem.paths</span></code></a></li>
+<li><a class="reference internal" href="#test_all.RecordingFileSystem.cat_file"><code class="docutils literal notranslate"><span class="pre">RecordingFileSystem.cat_file()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#test_all.test_scan_db_relation_pushes_projection_and_limit"><code class="docutils literal notranslate"><span class="pre">test_scan_db_relation_pushes_projection_and_limit()</span></code></a></li>
 <li><a class="reference internal" href="#test_all.test_scan_db_relation_pushes_supported_predicate"><code class="docutils literal notranslate"><span class="pre">test_scan_db_relation_pushes_supported_predicate()</span></code></a></li>
 <li><a class="reference internal" href="#test_all.test_scan_db_relation_filters_locally_when_predicate_is_not_supported"><code class="docutils literal notranslate"><span class="pre">test_scan_db_relation_filters_locally_when_predicate_is_not_supported()</span></code></a></li>
 <li><a class="reference internal" href="#test_all.test_scan_db_relation_reads_registered_fsspec_db"><code class="docutils literal notranslate"><span class="pre">test_scan_db_relation_reads_registered_fsspec_db()</span></code></a></li>
+<li><a class="reference internal" href="#test_all.test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db"><code class="docutils literal notranslate"><span class="pre">test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db()</span></code></a></li>
 <li><a class="reference internal" href="#test_all.test_scan_db_sql_uses_query_pushdown"><code class="docutils literal notranslate"><span class="pre">test_scan_db_sql_uses_query_pushdown()</span></code></a></li>
 <li><a class="reference internal" href="#test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails"><code class="docutils literal notranslate"><span class="pre">test_scan_db_sql_filters_locally_when_sql_pushdown_fails()</span></code></a></li>
 <li><a class="reference internal" href="#test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed"><code class="docutils literal notranslate"><span class="pre">test_sql_pushdown_helpers_use_polars_io_tools_when_installed()</span></code></a></li>
