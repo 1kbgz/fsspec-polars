@@ -1,0 +1,82 @@
+fsspec_polars.db
+================
+
+.. py:module:: fsspec_polars.db
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   fsspec_polars.db._PATH_QUERY_KEYS
+   fsspec_polars.db._RELATION_EXTENSIONS
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   fsspec_polars.db.scan_db_relation
+   fsspec_polars.db.scan_db_sql
+   fsspec_polars.db._filesystem
+   fsspec_polars.db._dialect_from_protocol
+   fsspec_polars.db._schema_from_relation
+   fsspec_polars.db._schema_from_sql
+   fsspec_polars.db._relation_arrow_path
+   fsspec_polars.db._with_arrow_extension
+   fsspec_polars.db._read_arrow_frame
+   fsspec_polars.db._normalize_predicate
+   fsspec_polars.db._predicate_to_sql
+   fsspec_polars.db._sql_with_pushdowns
+   fsspec_polars.db._apply_local_frame_ops
+   fsspec_polars.db._yield_frame
+   fsspec_polars.db._strip_sql
+
+
+Module Contents
+---------------
+
+.. py:data:: _PATH_QUERY_KEYS
+
+.. py:data:: _RELATION_EXTENSIONS
+   :value: ('.arrow', '.parquet', '.csv', '.jsonl')
+
+
+.. py:function:: scan_db_relation(protocol: str, path: str, *, storage_options: collections.abc.Mapping[str, Any] | None = None, filesystem: Any | None = None, schema: collections.abc.Mapping[str, polars.DataType] | None = None, dialect: str | None = None) -> polars.LazyFrame
+
+   Scan an fsspec-db relation as a Polars LazyFrame.
+
+
+.. py:function:: scan_db_sql(protocol: str, sql: str, *, storage_options: collections.abc.Mapping[str, Any] | None = None, filesystem: Any | None = None, schema: collections.abc.Mapping[str, polars.DataType] | None = None, dialect: str | None = None) -> polars.LazyFrame
+
+   Scan an fsspec-db SQL query as a Polars LazyFrame.
+
+
+.. py:function:: _filesystem(protocol: str, storage_options: collections.abc.Mapping[str, Any] | None, filesystem: Any | None) -> Any
+
+.. py:function:: _dialect_from_protocol(protocol: str) -> str | None
+
+.. py:function:: _schema_from_relation(fs: Any, path: str) -> dict[str, polars.DataType]
+
+.. py:function:: _schema_from_sql(fs: Any, sql: str) -> dict[str, polars.DataType]
+
+.. py:function:: _relation_arrow_path(path: str, *, columns: collections.abc.Sequence[str] | None = None, where: str | None = None, limit: int | None = None) -> str
+
+.. py:function:: _with_arrow_extension(path: str) -> str
+
+.. py:function:: _read_arrow_frame(data: bytes | bytearray | memoryview | pyarrow.Buffer) -> polars.DataFrame
+
+.. py:function:: _normalize_predicate(predicate: polars.Expr | collections.abc.Sequence[polars.Expr] | None) -> polars.Expr | None
+
+.. py:function:: _predicate_to_sql(predicate: polars.Expr | None, dialect: str | None) -> str | None
+
+.. py:function:: _sql_with_pushdowns(sql: str, dialect: str | None, with_columns: list[str] | None, predicate: polars.Expr | None, n_rows: int | None, batch_size: int | None) -> str | None
+
+.. py:function:: _apply_local_frame_ops(frame: polars.DataFrame, with_columns: list[str] | None, predicate: polars.Expr | None, n_rows: int | None) -> polars.DataFrame
+
+.. py:function:: _yield_frame(frame: polars.DataFrame, batch_size: int | None) -> collections.abc.Iterator[polars.DataFrame]
+
+.. py:function:: _strip_sql(sql: str) -> str
+

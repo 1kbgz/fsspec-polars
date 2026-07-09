@@ -199,7 +199,10 @@
   <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input aria-label="Toggle navigation of API Reference" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">test_all</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../fsspec_polars/index.html">fsspec_polars</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../fsspec_polars/index.html">fsspec_polars</a><input aria-label="Toggle navigation of fsspec_polars" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../fsspec_polars/db/index.html">fsspec_polars.db</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -242,12 +245,48 @@
         <article role="main" id="furo-main-content">
           <section id="module-test_all">
 <span id="test-all"></span><h1>test_all<a class="headerlink" href="#module-test_all" title="Link to this heading">¶</a></h1>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#test_all.FakeRelationFileSystem" title="test_all.FakeRelationFileSystem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FakeRelationFileSystem</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#test_all.FakeSqlFileSystem" title="test_all.FakeSqlFileSystem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FakeSqlFileSystem</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 <section id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h2>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#test_all.test_all" title="test_all.test_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_all</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#test_all.arrow_stream_bytes" title="test_all.arrow_stream_bytes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrow_stream_bytes</span></code></a>(table)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#test_all.test_scan_db_relation_pushes_projection_and_limit" title="test_all.test_scan_db_relation_pushes_projection_and_limit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_relation_pushes_projection_and_limit</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#test_all.test_scan_db_relation_pushes_supported_predicate" title="test_all.test_scan_db_relation_pushes_supported_predicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_relation_pushes_supported_predicate</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#test_all.test_scan_db_relation_filters_locally_when_predicate_is_not_supported" title="test_all.test_scan_db_relation_filters_locally_when_predicate_is_not_supported"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_relation_filters_locally_when_predicate_is_not_supported</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#test_all.test_scan_db_relation_reads_registered_fsspec_db" title="test_all.test_scan_db_relation_reads_registered_fsspec_db"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_relation_reads_registered_fsspec_db</span></code></a>(tmp_path)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#test_all.test_scan_db_sql_uses_query_pushdown" title="test_all.test_scan_db_sql_uses_query_pushdown"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_sql_uses_query_pushdown</span></code></a>(monkeypatch)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails" title="test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_scan_db_sql_filters_locally_when_sql_pushdown_fails</span></code></a>(...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed" title="test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test_sql_pushdown_helpers_use_polars_io_tools_when_installed</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -257,8 +296,78 @@
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="test_all.test_all">
-<span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_all" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="test_all.arrow_stream_bytes">
+<span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">arrow_stream_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.arrow_stream_bytes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="test_all.FakeRelationFileSystem">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">FakeRelationFileSystem</span></span><a class="headerlink" href="#test_all.FakeRelationFileSystem" title="Link to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="test_all.FakeRelationFileSystem.paths">
+<span class="sig-name descname"><span class="pre">paths</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#test_all.FakeRelationFileSystem.paths" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="test_all.FakeRelationFileSystem.frame">
+<span class="sig-name descname"><span class="pre">frame</span></span><a class="headerlink" href="#test_all.FakeRelationFileSystem.frame" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="test_all.FakeRelationFileSystem.cat_file">
+<span class="sig-name descname"><span class="pre">cat_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.FakeRelationFileSystem.cat_file" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="test_all.FakeSqlFileSystem">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">FakeSqlFileSystem</span></span><a class="headerlink" href="#test_all.FakeSqlFileSystem" title="Link to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="test_all.FakeSqlFileSystem.queries">
+<span class="sig-name descname"><span class="pre">queries</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#test_all.FakeSqlFileSystem.queries" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="test_all.FakeSqlFileSystem.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sql</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.FakeSqlFileSystem.query" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="test_all.test_scan_db_relation_pushes_projection_and_limit">
+<span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_scan_db_relation_pushes_projection_and_limit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_scan_db_relation_pushes_projection_and_limit" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="test_all.test_scan_db_relation_pushes_supported_predicate">
+<span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_scan_db_relation_pushes_supported_predicate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monkeypatch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_scan_db_relation_pushes_supported_predicate" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="test_all.test_scan_db_relation_filters_locally_when_predicate_is_not_supported">
+<span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_scan_db_relation_filters_locally_when_predicate_is_not_supported</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monkeypatch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_scan_db_relation_filters_locally_when_predicate_is_not_supported" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="test_all.test_scan_db_relation_reads_registered_fsspec_db">
+<span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_scan_db_relation_reads_registered_fsspec_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmp_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_scan_db_relation_reads_registered_fsspec_db" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="test_all.test_scan_db_sql_uses_query_pushdown">
+<span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_scan_db_sql_uses_query_pushdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monkeypatch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_scan_db_sql_uses_query_pushdown" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails">
+<span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_scan_db_sql_filters_locally_when_sql_pushdown_fails</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">monkeypatch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed">
+<span class="sig-prename descclassname"><span class="pre">test_all.</span></span><span class="sig-name descname"><span class="pre">test_sql_pushdown_helpers_use_polars_io_tools_when_installed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -320,9 +429,28 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">test_all</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#functions">Functions</a></li>
 <li><a class="reference internal" href="#module-contents">Module Contents</a><ul>
-<li><a class="reference internal" href="#test_all.test_all"><code class="docutils literal notranslate"><span class="pre">test_all()</span></code></a></li>
+<li><a class="reference internal" href="#test_all.arrow_stream_bytes"><code class="docutils literal notranslate"><span class="pre">arrow_stream_bytes()</span></code></a></li>
+<li><a class="reference internal" href="#test_all.FakeRelationFileSystem"><code class="docutils literal notranslate"><span class="pre">FakeRelationFileSystem</span></code></a><ul>
+<li><a class="reference internal" href="#test_all.FakeRelationFileSystem.paths"><code class="docutils literal notranslate"><span class="pre">FakeRelationFileSystem.paths</span></code></a></li>
+<li><a class="reference internal" href="#test_all.FakeRelationFileSystem.frame"><code class="docutils literal notranslate"><span class="pre">FakeRelationFileSystem.frame</span></code></a></li>
+<li><a class="reference internal" href="#test_all.FakeRelationFileSystem.cat_file"><code class="docutils literal notranslate"><span class="pre">FakeRelationFileSystem.cat_file()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#test_all.FakeSqlFileSystem"><code class="docutils literal notranslate"><span class="pre">FakeSqlFileSystem</span></code></a><ul>
+<li><a class="reference internal" href="#test_all.FakeSqlFileSystem.queries"><code class="docutils literal notranslate"><span class="pre">FakeSqlFileSystem.queries</span></code></a></li>
+<li><a class="reference internal" href="#test_all.FakeSqlFileSystem.query"><code class="docutils literal notranslate"><span class="pre">FakeSqlFileSystem.query()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#test_all.test_scan_db_relation_pushes_projection_and_limit"><code class="docutils literal notranslate"><span class="pre">test_scan_db_relation_pushes_projection_and_limit()</span></code></a></li>
+<li><a class="reference internal" href="#test_all.test_scan_db_relation_pushes_supported_predicate"><code class="docutils literal notranslate"><span class="pre">test_scan_db_relation_pushes_supported_predicate()</span></code></a></li>
+<li><a class="reference internal" href="#test_all.test_scan_db_relation_filters_locally_when_predicate_is_not_supported"><code class="docutils literal notranslate"><span class="pre">test_scan_db_relation_filters_locally_when_predicate_is_not_supported()</span></code></a></li>
+<li><a class="reference internal" href="#test_all.test_scan_db_relation_reads_registered_fsspec_db"><code class="docutils literal notranslate"><span class="pre">test_scan_db_relation_reads_registered_fsspec_db()</span></code></a></li>
+<li><a class="reference internal" href="#test_all.test_scan_db_sql_uses_query_pushdown"><code class="docutils literal notranslate"><span class="pre">test_scan_db_sql_uses_query_pushdown()</span></code></a></li>
+<li><a class="reference internal" href="#test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails"><code class="docutils literal notranslate"><span class="pre">test_scan_db_sql_filters_locally_when_sql_pushdown_fails()</span></code></a></li>
+<li><a class="reference internal" href="#test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed"><code class="docutils literal notranslate"><span class="pre">test_sql_pushdown_helpers_use_polars_io_tools_when_installed()</span></code></a></li>
 </ul>
 </li>
 </ul>

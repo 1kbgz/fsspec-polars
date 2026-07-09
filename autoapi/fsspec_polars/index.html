@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="prev" title="test_all" href="../test_all/index.html">
+<link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html"><link rel="next" title="fsspec_polars.db" href="db/index.html"><link rel="prev" title="test_all" href="../test_all/index.html">
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
         <title>fsspec_polars - fsspec-polars v0.1.0</title>
@@ -199,7 +199,10 @@
   <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input aria-label="Toggle navigation of API Reference" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../test_all/index.html">test_all</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">fsspec_polars</a></li>
+<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">fsspec_polars</a><input aria-label="Toggle navigation of fsspec_polars" checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="db/index.html">fsspec_polars.db</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -242,6 +245,14 @@
         <article role="main" id="furo-main-content">
           <section id="module-fsspec_polars">
 <span id="fsspec-polars"></span><h1>fsspec_polars<a class="headerlink" href="#module-fsspec_polars" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="db/index.html">fsspec_polars.db</a></li>
+</ul>
+</div>
+</section>
 <section id="attributes">
 <h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
 <div class="table-wrapper autosummary longtable docutils container">
@@ -254,8 +265,35 @@
 </table>
 </div>
 </section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fsspec_polars.scan_db_relation" title="fsspec_polars.scan_db_relation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan_db_relation</span></code></a>(→ polars.LazyFrame)</p></td>
+<td><p>Scan an fsspec-db relation as a Polars LazyFrame.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#fsspec_polars.scan_db_sql" title="fsspec_polars.scan_db_sql"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan_db_sql</span></code></a>(→ polars.LazyFrame)</p></td>
+<td><p>Scan an fsspec-db SQL query as a Polars LazyFrame.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 <section id="package-contents">
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="fsspec_polars.scan_db_relation">
+<span class="sig-prename descclassname"><span class="pre">fsspec_polars.</span></span><span class="sig-name descname"><span class="pre">scan_db_relation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">collections.abc.Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filesystem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">collections.abc.Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">polars.DataType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dialect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">polars.LazyFrame</span></span></span><a class="reference internal" href="../../_modules/fsspec_polars/db.html#scan_db_relation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fsspec_polars.scan_db_relation" title="Link to this definition">¶</a></dt>
+<dd><p>Scan an fsspec-db relation as a Polars LazyFrame.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fsspec_polars.scan_db_sql">
+<span class="sig-prename descclassname"><span class="pre">fsspec_polars.</span></span><span class="sig-name descname"><span class="pre">scan_db_sql</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">protocol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sql</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">collections.abc.Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filesystem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">collections.abc.Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">polars.DataType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dialect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">polars.LazyFrame</span></span></span><a class="reference internal" href="../../_modules/fsspec_polars/db.html#scan_db_sql"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fsspec_polars.scan_db_sql" title="Link to this definition">¶</a></dt>
+<dd><p>Scan an fsspec-db SQL query as a Polars LazyFrame.</p>
+</dd></dl>
+
 <dl class="py data">
 <dt class="sig sig-object py" id="fsspec_polars.__version__">
 <span class="sig-prename descclassname"><span class="pre">fsspec_polars.</span></span><span class="sig-name descname"><span class="pre">__version__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.1.0'</span></em><a class="headerlink" href="#fsspec_polars.__version__" title="Link to this definition">¶</a></dt>
@@ -269,7 +307,15 @@
       <footer>
         
         <div class="related-pages">
-          
+          <a class="next-page" href="db/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">fsspec_polars.db</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
           <a class="prev-page" href="../test_all/index.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
@@ -312,8 +358,12 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">fsspec_polars</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#attributes">Attributes</a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
 <li><a class="reference internal" href="#package-contents">Package Contents</a><ul>
+<li><a class="reference internal" href="#fsspec_polars.scan_db_relation"><code class="docutils literal notranslate"><span class="pre">scan_db_relation()</span></code></a></li>
+<li><a class="reference internal" href="#fsspec_polars.scan_db_sql"><code class="docutils literal notranslate"><span class="pre">scan_db_sql()</span></code></a></li>
 <li><a class="reference internal" href="#fsspec_polars.__version__"><code class="docutils literal notranslate"><span class="pre">__version__</span></code></a></li>
 </ul>
 </li>

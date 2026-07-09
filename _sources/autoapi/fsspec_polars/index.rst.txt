@@ -4,6 +4,15 @@ fsspec_polars
 .. py:module:: fsspec_polars
 
 
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/fsspec_polars/db/index
+
+
 Attributes
 ----------
 
@@ -12,8 +21,27 @@ Attributes
    fsspec_polars.__version__
 
 
+Functions
+---------
+
+.. autoapisummary::
+
+   fsspec_polars.scan_db_relation
+   fsspec_polars.scan_db_sql
+
+
 Package Contents
 ----------------
+
+.. py:function:: scan_db_relation(protocol: str, path: str, *, storage_options: collections.abc.Mapping[str, Any] | None = None, filesystem: Any | None = None, schema: collections.abc.Mapping[str, polars.DataType] | None = None, dialect: str | None = None) -> polars.LazyFrame
+
+   Scan an fsspec-db relation as a Polars LazyFrame.
+
+
+.. py:function:: scan_db_sql(protocol: str, sql: str, *, storage_options: collections.abc.Mapping[str, Any] | None = None, filesystem: Any | None = None, schema: collections.abc.Mapping[str, polars.DataType] | None = None, dialect: str | None = None) -> polars.LazyFrame
+
+   Scan an fsspec-db SQL query as a Polars LazyFrame.
+
 
 .. py:data:: __version__
    :value: '0.1.0'

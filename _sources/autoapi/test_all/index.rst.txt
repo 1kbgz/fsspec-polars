@@ -4,16 +4,69 @@ test_all
 .. py:module:: test_all
 
 
+Classes
+-------
+
+.. autoapisummary::
+
+   test_all.FakeRelationFileSystem
+   test_all.FakeSqlFileSystem
+
+
 Functions
 ---------
 
 .. autoapisummary::
 
-   test_all.test_all
+   test_all.arrow_stream_bytes
+   test_all.test_scan_db_relation_pushes_projection_and_limit
+   test_all.test_scan_db_relation_pushes_supported_predicate
+   test_all.test_scan_db_relation_filters_locally_when_predicate_is_not_supported
+   test_all.test_scan_db_relation_reads_registered_fsspec_db
+   test_all.test_scan_db_sql_uses_query_pushdown
+   test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails
+   test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed
 
 
 Module Contents
 ---------------
 
-.. py:function:: test_all()
+.. py:function:: arrow_stream_bytes(table)
+
+.. py:class:: FakeRelationFileSystem
+
+   .. py:attribute:: paths
+      :value: []
+
+
+
+   .. py:attribute:: frame
+
+
+   .. py:method:: cat_file(path)
+
+
+.. py:class:: FakeSqlFileSystem
+
+   .. py:attribute:: queries
+      :value: []
+
+
+
+   .. py:method:: query(sql, params=None)
+
+
+.. py:function:: test_scan_db_relation_pushes_projection_and_limit()
+
+.. py:function:: test_scan_db_relation_pushes_supported_predicate(monkeypatch)
+
+.. py:function:: test_scan_db_relation_filters_locally_when_predicate_is_not_supported(monkeypatch)
+
+.. py:function:: test_scan_db_relation_reads_registered_fsspec_db(tmp_path)
+
+.. py:function:: test_scan_db_sql_uses_query_pushdown(monkeypatch)
+
+.. py:function:: test_scan_db_sql_filters_locally_when_sql_pushdown_fails(monkeypatch)
+
+.. py:function:: test_sql_pushdown_helpers_use_polars_io_tools_when_installed()
 
