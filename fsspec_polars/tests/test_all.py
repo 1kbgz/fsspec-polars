@@ -1,6 +1,7 @@
 import sqlite3
 from urllib.parse import parse_qsl, urlsplit
 
+import fsspec
 import polars as pl
 import pyarrow as pa
 import pyarrow.ipc as ipc
@@ -53,6 +54,16 @@ class FakeSqlFileSystem:
         return pa.table({"name": ["ada", "grace"], "score": [1.0, 2.0]})
 
 
+class RecordingFileSystem:
+    def __init__(self, inner):
+        self.inner = inner
+        self.paths = []
+
+    def cat_file(self, path):
+        self.paths.append(path)
+        return self.inner.cat_file(path)
+
+
 def test_scan_db_relation_pushes_projection_and_limit():
     fs = FakeRelationFileSystem()
 
@@ -98,6 +109,30 @@ def test_scan_db_relation_reads_registered_fsspec_db(tmp_path):
     frame = scan_db_relation("db+sqlite", "/main/users", storage_options={"database": str(path)}).filter(pl.col("score") > 1).select("name").collect()
 
     assert frame.to_dict(as_series=False) == {"name": ["grace"]}
+
+
+def test_scan_db_relation_pushes_real_polars_predicate_to_fsspec_db(tmp_path):
+    pytest.importorskip("polars_io_tools")
+
+    path = tmp_path / "app.db"
+    with sqlite3.connect(path) as conn:
+        conn.executescript(
+            """
+            CREATE TABLE users (name TEXT NOT NULL, score REAL NOT NULL);
+            INSERT INTO users (name, score) VALUES ('ada', 1.0), ('grace', 2.0), ('katherine', 3.0);
+            """
+        )
+
+    fs = RecordingFileSystem(fsspec.filesystem("db+sqlite", database=str(path), skip_instance_cache=True))
+
+    frame = scan_db_relation("db+sqlite", "/main/users", filesystem=fs).filter(pl.col("score") > 1).select("name").collect()
+
+    assert frame.to_dict(as_series=False) == {"name": ["grace", "katherine"]}
+    where_paths = [path for path in fs.paths if "where=" in urlsplit(path).query]
+    assert where_paths
+    where = dict(parse_qsl(urlsplit(where_paths[-1]).query))["where"]
+    assert "score" in where
+    assert ">" in where
 
 
 def test_scan_db_sql_uses_query_pushdown(monkeypatch):

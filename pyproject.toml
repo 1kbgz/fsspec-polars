@@ -52,6 +52,7 @@ develop = [
     "hatchling",
     "mdformat",
     "mdformat-tables>=1",
+    "polars-io-tools>=0.1.1; python_version >= '3.11'",
     "pytest",
     "pytest-cov",
     "ruff",
