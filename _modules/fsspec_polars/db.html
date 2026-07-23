@@ -246,8 +246,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">fsspec</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyarrow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pa</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pyarrow.ipc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ipc</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">polars.io.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_io_source</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyarrow</span><span class="w"> </span><span class="kn">import</span> <span class="n">ipc</span>
 
 <span class="n">_PATH_QUERY_KEYS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;columns&quot;</span><span class="p">,</span> <span class="s2">&quot;limit&quot;</span><span class="p">,</span> <span class="s2">&quot;where&quot;</span><span class="p">}</span>
 <span class="n">_RELATION_EXTENSIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;.arrow&quot;</span><span class="p">,</span> <span class="s2">&quot;.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;.jsonl&quot;</span><span class="p">)</span>
