@@ -7,8 +7,8 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 import fsspec
 import polars as pl
 import pyarrow as pa
-import pyarrow.ipc as ipc
 from polars.io.plugins import register_io_source
+from pyarrow import ipc
 
 _PATH_QUERY_KEYS = {"columns", "limit", "where"}
 _RELATION_EXTENSIONS = (".arrow", ".parquet", ".csv", ".jsonl")
