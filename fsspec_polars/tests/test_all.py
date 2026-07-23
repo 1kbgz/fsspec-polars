@@ -4,8 +4,8 @@ from urllib.parse import parse_qsl, urlsplit
 import fsspec
 import polars as pl
 import pyarrow as pa
-import pyarrow.ipc as ipc
 import pytest
+from pyarrow import ipc
 
 import fsspec_polars.db as db_mod
 from fsspec_polars import scan_db_relation, scan_db_sql
