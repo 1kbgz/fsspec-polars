@@ -1,9 +1,5 @@
-<<<<<<< before updating
 import sqlite3
 from urllib.parse import parse_qsl, urlsplit
-=======
-from fsspec_polars import *
->>>>>>> after updating
 
 import fsspec
 import polars as pl
