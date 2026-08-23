@@ -249,8 +249,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">polars.io.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_io_source</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyarrow</span><span class="w"> </span><span class="kn">import</span> <span class="n">ipc</span>
 
-<span class="n">_PATH_QUERY_KEYS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;columns&quot;</span><span class="p">,</span> <span class="s2">&quot;limit&quot;</span><span class="p">,</span> <span class="s2">&quot;where&quot;</span><span class="p">}</span>
-<span class="n">_RELATION_EXTENSIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;.arrow&quot;</span><span class="p">,</span> <span class="s2">&quot;.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;.jsonl&quot;</span><span class="p">)</span>
+<span class="n">_PATH_QUERY_KEYS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"columns"</span><span class="p">,</span> <span class="s2">"limit"</span><span class="p">,</span> <span class="s2">"where"</span><span class="p">}</span>
+<span class="n">_RELATION_EXTENSIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">".arrow"</span><span class="p">,</span> <span class="s2">".parquet"</span><span class="p">,</span> <span class="s2">".csv"</span><span class="p">,</span> <span class="s2">".jsonl"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="scan_db_relation">
@@ -264,7 +264,7 @@
     <span class="n">schema</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataType</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dialect</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scan an fsspec-db relation as a Polars LazyFrame.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Scan an fsspec-db relation as a Polars LazyFrame."""</span>
     <span class="n">fs</span> <span class="o">=</span> <span class="n">_filesystem</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">storage_options</span><span class="p">,</span> <span class="n">filesystem</span><span class="p">)</span>
     <span class="n">dialect</span> <span class="o">=</span> <span class="n">dialect</span> <span class="ow">or</span> <span class="n">_dialect_from_protocol</span><span class="p">(</span><span class="n">protocol</span><span class="p">)</span>
     <span class="n">source_schema</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span> <span class="k">if</span> <span class="n">schema</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_schema_from_relation</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
@@ -304,7 +304,7 @@
     <span class="n">schema</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataType</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dialect</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">LazyFrame</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scan an fsspec-db SQL query as a Polars LazyFrame.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Scan an fsspec-db SQL query as a Polars LazyFrame."""</span>
     <span class="n">fs</span> <span class="o">=</span> <span class="n">_filesystem</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">storage_options</span><span class="p">,</span> <span class="n">filesystem</span><span class="p">)</span>
     <span class="n">dialect</span> <span class="o">=</span> <span class="n">dialect</span> <span class="ow">or</span> <span class="n">_dialect_from_protocol</span><span class="p">(</span><span class="n">protocol</span><span class="p">)</span>
     <span class="n">source_schema</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span> <span class="k">if</span> <span class="n">schema</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_schema_from_sql</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
@@ -342,10 +342,10 @@
 <a class="viewcode-back" href="../../autoapi/fsspec_polars/db/index.html#fsspec_polars.db._dialect_from_protocol">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_dialect_from_protocol</span><span class="p">(</span><span class="n">protocol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;db+sqlite&quot;</span><span class="p">:</span> <span class="s2">&quot;sqlite&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;db+postgres&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;db+postgresql&quot;</span><span class="p">:</span> <span class="s2">&quot;postgres&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;db+mysql&quot;</span><span class="p">:</span> <span class="s2">&quot;mysql&quot;</span><span class="p">,</span>
+        <span class="s2">"db+sqlite"</span><span class="p">:</span> <span class="s2">"sqlite"</span><span class="p">,</span>
+        <span class="s2">"db+postgres"</span><span class="p">:</span> <span class="s2">"postgres"</span><span class="p">,</span>
+        <span class="s2">"db+postgresql"</span><span class="p">:</span> <span class="s2">"postgres"</span><span class="p">,</span>
+        <span class="s2">"db+mysql"</span><span class="p">:</span> <span class="s2">"mysql"</span><span class="p">,</span>
     <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">protocol</span><span class="p">)</span></div>
 
 
@@ -361,7 +361,7 @@
 <div class="viewcode-block" id="_schema_from_sql">
 <a class="viewcode-back" href="../../autoapi/fsspec_polars/db/index.html#fsspec_polars.db._schema_from_sql">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_schema_from_sql</span><span class="p">(</span><span class="n">fs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">sql</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataType</span><span class="p">]:</span>
-    <span class="n">table</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT * FROM (</span><span class="si">{</span><span class="n">_strip_sql</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span><span class="si">}</span><span class="s2">) AS __fsspec_polars_schema LIMIT 0&quot;</span><span class="p">)</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SELECT * FROM (</span><span class="si">{</span><span class="n">_strip_sql</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span><span class="si">}</span><span class="s2">) AS __fsspec_polars_schema LIMIT 0"</span><span class="p">)</span>
     <span class="n">frame</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">from_arrow</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span></div>
 
@@ -379,12 +379,12 @@
     <span class="n">parsed</span> <span class="o">=</span> <span class="n">urlsplit</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="n">query</span> <span class="o">=</span> <span class="p">[(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">parse_qsl</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">query</span><span class="p">,</span> <span class="n">keep_blank_values</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_PATH_QUERY_KEYS</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">query</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;columns&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">columns</span><span class="p">)))</span>
+        <span class="n">query</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"columns"</span><span class="p">,</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">columns</span><span class="p">)))</span>
     <span class="k">if</span> <span class="n">where</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">query</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;where&quot;</span><span class="p">,</span> <span class="n">where</span><span class="p">))</span>
+        <span class="n">query</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"where"</span><span class="p">,</span> <span class="n">where</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">query</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;limit&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">limit</span><span class="p">)))</span>
-    <span class="k">return</span> <span class="n">urlunsplit</span><span class="p">((</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">_with_arrow_extension</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">),</span> <span class="n">parsed</span><span class="o">.</span><span class="n">fragment</span><span class="p">))</span></div>
+        <span class="n">query</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">"limit"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">limit</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">urlunsplit</span><span class="p">((</span><span class="s2">""</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">_with_arrow_extension</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">path</span><span class="p">),</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="s2">","</span><span class="p">),</span> <span class="n">parsed</span><span class="o">.</span><span class="n">fragment</span><span class="p">))</span></div>
 
 
 
@@ -393,8 +393,8 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_with_arrow_extension</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">extension</span> <span class="ow">in</span> <span class="n">_RELATION_EXTENSIONS</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">extension</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">path</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">extension</span><span class="p">)]</span> <span class="o">+</span> <span class="s2">&quot;.arrow&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">.arrow&quot;</span></div>
+            <span class="k">return</span> <span class="n">path</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">extension</span><span class="p">)]</span> <span class="o">+</span> <span class="s2">".arrow"</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">.arrow"</span></div>
 
 
 
@@ -497,7 +497,7 @@
 <div class="viewcode-block" id="_strip_sql">
 <a class="viewcode-back" href="../../autoapi/fsspec_polars/db/index.html#fsspec_polars.db._strip_sql">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_strip_sql</span><span class="p">(</span><span class="n">sql</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="n">sql</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="s2">&quot;;&quot;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">sql</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="s2">";"</span><span class="p">)</span></div>
 
 </pre></div>
         </article>
