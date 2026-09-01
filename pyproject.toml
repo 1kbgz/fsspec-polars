@@ -39,7 +39,7 @@ dependencies = [
 
 [project.optional-dependencies]
 pushdown = [
-    "polars-io-tools>=0.1.2; python_version >= '3.11'",
+    "polars-io-tools>=0.2.0; python_version >= '3.11'",
 ]
 develop = [
     "build",
@@ -51,7 +51,7 @@ develop = [
     "hatchling",
     "mdformat",
     "mdformat-tables>=1",
-    "polars-io-tools>=0.1.2; python_version >= '3.11'",
+    "polars-io-tools>=0.2.0; python_version >= '3.11'",
     "pytest",
     "pytest-cov",
     "ruff",
