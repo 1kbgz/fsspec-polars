@@ -212,5 +212,11 @@ section-order = [
 [tool.yardang]
 title = "fsspec-polars"
 root = "README.md"
-pages = []
+pages = [
+    "docs/tutorial.md",
+    "docs/how-to-scan.md",
+    "docs/reference.md",
+    "docs/explanation.md",
+]
 use-autoapi = true
+autoapi-ignore = []
