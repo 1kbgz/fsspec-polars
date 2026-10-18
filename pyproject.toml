@@ -50,6 +50,7 @@ develop = [
     "hatch-rs",
     "hatchling",
     "mdformat",
+    "mdformat-frontmatter",
     "mdformat-tables>=1",
     "polars-io-tools>=0.2.0; python_version >= '3.11'",
     "pytest",
@@ -75,7 +76,8 @@ tag = true
 commit_args = "-s"
 pre_commit_hooks = [
     "cargo update --workspace",
-    "git add Cargo.lock",
+    "cargo update --manifest-path rust/Cargo.toml --workspace",
+    "git add Cargo.lock rust/Cargo.lock",
 ]
 
 [[tool.bumpversion.files]]
@@ -126,7 +128,7 @@ skip = "*win32 *arm64"
 [tool.coverage.run]
 branch = true
 omit = [
-    "fsspec_polars/tests/integration/",
+    "fsspec_polars/tests/integration/*",
 ]
 
 [tool.coverage.report]
@@ -137,13 +139,6 @@ exclude_also = [
 ]
 ignore_errors = true
 fail_under = 50
-
-[tool.hatch.build]
-artifacts = [
-    "fsspec_polars/*.dll",
-    "fsspec_polars/*.dylib",
-    "fsspec_polars/*.so",
-]
 
 [tool.hatch.build.sources]
 src = "/"
@@ -162,11 +157,20 @@ packages = [
     "Cargo.lock",
 ]
 exclude = [
+    "*.dll",
+    "*.dylib",
+    "*.so",
+    "*.pyd",
     "rust/Makefile",
     "target",
 ]
 
 [tool.hatch.build.targets.wheel]
+artifacts = [
+    "fsspec_polars/*.dll",
+    "fsspec_polars/*.dylib",
+    "fsspec_polars/*.so",
+]
 packages = [
     "fsspec_polars",
 ]
