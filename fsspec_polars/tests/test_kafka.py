@@ -1,5 +1,5 @@
 import json
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from urllib.parse import parse_qsl, urlsplit
 
 import polars as pl
@@ -18,9 +18,13 @@ def arrow_stream_bytes(frame):
     return sink.getvalue().to_pybytes()
 
 
+# Windows cannot convert timestamps near 1970 to local time, which predicate conversion does.
+EPOCH = datetime(2026, 11, 1, tzinfo=UTC)
+
+
 class FakeKafkaFileSystem:
     """Topic `orders` with two partitions. Compaction removed offsets 1 and 4 from
-    partition 0; message timestamps are 1000 ms after their offset in seconds."""
+    partition 0; message timestamps are offset seconds after EPOCH."""
 
     def __init__(self):
         self.paths = []
@@ -29,7 +33,7 @@ class FakeKafkaFileSystem:
             {
                 "partition": [p for p, values in offsets.items() for _ in values],
                 "offset": [o for values in offsets.values() for o in values],
-                "timestamp": [datetime.fromtimestamp(1000 + o, UTC) for values in offsets.values() for o in values],
+                "timestamp": [EPOCH + timedelta(seconds=o) for values in offsets.values() for o in values],
                 "value": [f"v{p}-{o}".encode() for p, values in offsets.items() for o in values],
             },
             schema_overrides={"partition": pl.Int32, "timestamp": pl.Datetime("ms", "UTC")},
@@ -89,7 +93,7 @@ def test_scan_kafka_pushes_partition_and_offset_bounds():
 def test_scan_kafka_reads_from_a_timestamp():
     pytest.importorskip("polars_io_tools")
     fs = FakeKafkaFileSystem()
-    since = datetime.fromtimestamp(1002, UTC)
+    since = EPOCH + timedelta(seconds=2)
 
     frame = scan_kafka("orders/0", filesystem=fs).filter(pl.col("timestamp") >= since).collect()
 
