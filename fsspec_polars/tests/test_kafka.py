@@ -1,5 +1,6 @@
 import json
 from datetime import UTC, datetime, timedelta
+from typing import Any
 from urllib.parse import parse_qsl, urlsplit
 
 import polars as pl
@@ -148,3 +149,67 @@ def test_scan_kafka_reads_redpanda():
         assert frame.select("key", "value").to_dict(as_series=False) == {"key": [b"b"], "value": [b"2"]}
     finally:
         admin.rmdir(topic)
+
+
+def test_scan_kafka_source_runs_on_the_calling_thread(monkeypatch):
+    # Polars calls the source from its own threads, which coverage does not trace.
+    from fsspec_polars import kafka
+
+    pytest.importorskip("polars_io_tools")
+    monkeypatch.setattr(kafka, "register_io_source", lambda source, schema: source)
+    fs = FakeKafkaFileSystem()
+    source: Any = scan_kafka("orders", filesystem=fs)
+
+    batches = list(source(["offset"], [pl.col("partition") == 0, pl.col("offset") > 1], 2, 1))
+    assert [batch["offset"].to_list() for batch in batches] == [[2], [3]]
+    assert data_paths(fs) == ["orders/0.arrow?start=2&limit=4"]
+
+    fs.paths.clear()
+    since = EPOCH + timedelta(seconds=1)
+    batches = list(source(None, (pl.col("timestamp") > since) & (pl.col("offset") <= 5) & (5 >= pl.col("offset")), None, None))
+    assert [batch["offset"].to_list() for batch in batches] == [[2, 3, 5], [2]]
+    assert data_paths(fs) == [f"orders/0/@{since.isoformat()}.arrow", f"orders/1/@{since.isoformat()}.arrow"]
+
+    fs.paths.clear()
+    assert list(source(None, pl.col("offset") >= 10, None, None)) == []
+    assert data_paths(fs) == []
+    assert list(source(None, None, 0, None)) == []
+
+
+def test_predicates_narrow_only_what_they_bound(monkeypatch):
+    import sys
+
+    from fsspec_polars import kafka
+
+    sql_utils = pytest.importorskip("polars_io_tools.io_sources.sql_utils")
+    since = EPOCH + timedelta(seconds=1)
+
+    bounds = kafka._bounds((pl.lit(2) < pl.col("offset")) & (pl.col("offset") == 4) & (pl.col("timestamp") >= since))
+    assert (bounds.offset_start, bounds.offset_end, bounds.time_start) == (4, 5, since)
+    assert kafka._read_path("orders", {"partition": 0, "low": 0, "high": 6}, bounds) == "orders/0.arrow?start=4&limit=1"
+
+    unbounded = [
+        pl.col("partition").is_in(["a"]),
+        pl.col("partition").str.contains("0"),
+        pl.col("timestamp").dt.year() > 3,
+        pl.col("offset") > pl.col("partition"),
+        pl.col("offset") > 1.5,
+        pl.col("timestamp") >= "not a time",
+        pl.col("timestamp") >= 5,
+        pl.col("partition") > 0,
+    ]
+    for predicate in unbounded:
+        assert kafka._bounds(predicate) == kafka._Bounds(), predicate
+
+    partitions = kafka._bounds(pl.col("partition").is_in([0, 1]) & (pl.col("partition") == 1))
+    assert partitions.partitions == {1}
+    assert kafka._read_path("orders", {"partition": 0, "low": 0, "high": 6}, partitions) is None
+    assert kafka._bounds(pl.col("offset").is_null()) == kafka._Bounds()
+
+    naive = kafka._bounds(pl.col("timestamp") >= "2026-11-01 00:00:01")
+    assert naive.time_start == since
+
+    monkeypatch.setattr(sql_utils, "convert_predicate_to_sql", lambda predicate, dialect: None)
+    assert kafka._bounds(pl.col("offset") > 1) == kafka._Bounds()
+    monkeypatch.setitem(sys.modules, "polars_io_tools.io_sources.sql_utils", None)
+    assert kafka._bounds(pl.col("offset") > 1) == kafka._Bounds()
