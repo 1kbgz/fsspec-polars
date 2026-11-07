@@ -67,7 +67,9 @@ the schema. Each partition is then read as `topic/partition.arrow?start=&limit=`
 
 With the `pushdown` extra, predicates narrow those reads. `partition ==` and
 `partition.is_in` skip partitions, comparisons on `offset` set `start` and `limit`, and
-a lower bound on `timestamp` reads `topic/partition/@timestamp.arrow` instead. Other
+a lower bound on `timestamp` reads `topic/partition/@timestamp.arrow` instead. Converting
+time-zone-aware timestamps needs time zone data, which the extra installs on Windows as
+`tzdata`. Other
 predicates, including `|`, read whole partitions. The full predicate is always applied
 to the rows read. A row limit stops reading further partitions, but each partition is
 read whole, because compaction leaves gaps between offsets.

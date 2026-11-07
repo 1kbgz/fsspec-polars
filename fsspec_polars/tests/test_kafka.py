@@ -18,7 +18,6 @@ def arrow_stream_bytes(frame):
     return sink.getvalue().to_pybytes()
 
 
-# Windows cannot convert timestamps near 1970 to local time, which predicate conversion does.
 EPOCH = datetime(2026, 11, 1, tzinfo=UTC)
 
 
