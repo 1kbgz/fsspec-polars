@@ -1,6 +1,6 @@
 # Scan reference
 
-Both functions are exported from `fsspec_polars` and return `polars.LazyFrame`.
+These functions are exported from `fsspec_polars` and return `polars.LazyFrame`.
 
 ## `scan_db_relation`
 
@@ -48,6 +48,29 @@ Polars operations are applied locally.
 SQLite expression and aggregate columns can have different inferred dtypes in a
 zero-row query and a populated result. An explicit `schema` supplies the expected
 dtypes when the backend cannot infer them consistently.
+
+## `scan_kafka`
+
+```python
+scan_kafka(path, *, storage_options=None, filesystem=None)
+```
+
+| Parameter                          | Meaning                                                             |
+| ---------------------------------- | ------------------------------------------------------------------- |
+| `path: str`                        | Topic, such as `kafka://orders`, or one partition, `orders/0`.      |
+| `storage_options: Mapping \| None` | fsspec-kafka options, such as `bootstrap.servers` and value format. |
+| `filesystem`                       | Existing filesystem; takes precedence over `storage_options`.       |
+
+Requires fsspec-kafka. Construction reads `topic/_meta/watermarks.json` for the
+partitions and their offset ranges, and a zero-message read of the first partition for
+the schema. Each partition is then read as `topic/partition.arrow?start=&limit=`.
+
+With the `pushdown` extra, predicates narrow those reads. `partition ==` and
+`partition.is_in` skip partitions, comparisons on `offset` set `start` and `limit`, and
+a lower bound on `timestamp` reads `topic/partition/@timestamp.arrow` instead. Other
+predicates, including `|`, read whole partitions. The full predicate is always applied
+to the rows read. A row limit stops reading further partitions, but each partition is
+read whole, because compaction leaves gaps between offsets.
 
 ## Dialects and dependencies
 
