@@ -19,7 +19,7 @@ docs/explanation.md
 
 # fsspec-polars
 
-Scan fsspec-db relations and SQL queries as Polars LazyFrames.
+Scan fsspec-db relations, SQL queries, and fsspec-kafka topics as Polars LazyFrames.
 
 [![Build Status](https://github.com/1kbgz/fsspec-polars/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/1kbgz/fsspec-polars/actions/workflows/build.yaml)
 [![codecov](https://codecov.io/gh/1kbgz/fsspec-polars/branch/main/graph/badge.svg)](https://codecov.io/gh/1kbgz/fsspec-polars)
@@ -36,6 +36,7 @@ apply remaining work locally.
 runs a complete scan. [Scan relations and SQL](docs/how-to-scan.md) covers existing
 filesystems, explicit schemas, and optional SQL pushdown.
 
-The [scan reference](docs/reference.md) describes both public functions. Read
+The [scan reference](docs/reference.md) describes the public functions, including
+`scan_kafka` for Kafka topics. Read
 [Query pushdown and materialization](docs/explanation.md) for execution costs and
 fallback behavior.

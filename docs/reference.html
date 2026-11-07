@@ -113,6 +113,11 @@
     </a>
   </li>
   <li class="fd-tree-item">
+    <a class="fd-link" href="../autoapi/test_kafka/index.html">
+      <span class="fd-link-text">test_kafka</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
     <details class="fd-folder">
       <summary class="fd-folder-summary" title="Toggle section: fsspec_polars">
         <a class="fd-link" href="../autoapi/fsspec_polars/index.html">
@@ -125,6 +130,11 @@
   <li class="fd-tree-item">
     <a class="fd-link" href="../autoapi/fsspec_polars/db/index.html">
       <span class="fd-link-text">fsspec_polars.db</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
+    <a class="fd-link" href="../autoapi/fsspec_polars/kafka/index.html">
+      <span class="fd-link-text">fsspec_polars.kafka</span>
     </a>
   </li>
 </ul>
@@ -161,6 +171,9 @@
     <a href="#scan-db-sql">scan_db_sql</a>
   </li>
   <li class="fd-toc-item" data-depth="1">
+    <a href="#scan-kafka">scan_kafka</a>
+  </li>
+  <li class="fd-toc-item" data-depth="1">
     <a href="#dialects-and-dependencies">Dialects and dependencies</a>
   </li>
 </ul>
@@ -172,7 +185,7 @@
       <div class="fd-prose">
   <section class="tex2jax_ignore mathjax_ignore" id="scan-reference">
 <h1>Scan reference<a class="headerlink" href="#scan-reference" title="Link to this heading">¶</a></h1>
-<p>Both functions are exported from <code class="docutils literal notranslate"><span class="pre">fsspec_polars</span></code> and return <code class="docutils literal notranslate"><span class="pre">polars.LazyFrame</span></code>.</p>
+<p>These functions are exported from <code class="docutils literal notranslate"><span class="pre">fsspec_polars</span></code> and return <code class="docutils literal notranslate"><span class="pre">polars.LazyFrame</span></code>.</p>
 <section id="scan-db-relation">
 <h2><code class="docutils literal notranslate"><span class="pre">scan_db_relation</span></code><a class="headerlink" href="#scan-db-relation" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scan_db_relation</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -231,6 +244,41 @@ Polars operations are applied locally.</p>
 <p>SQLite expression and aggregate columns can have different inferred dtypes in a
 zero-row query and a populated result. An explicit <code class="docutils literal notranslate"><span class="pre">schema</span></code> supplies the expected
 dtypes when the backend cannot infer them consistently.</p>
+</section>
+<section id="scan-kafka">
+<h2><code class="docutils literal notranslate"><span class="pre">scan_kafka</span></code><a class="headerlink" href="#scan-kafka" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scan_kafka</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filesystem</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">path:</span> <span class="pre">str</span></code></p></td>
+<td><p>Topic, such as <code class="docutils literal notranslate"><span class="pre">kafka://orders</span></code>, or one partition, <code class="docutils literal notranslate"><span class="pre">orders/0</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">storage_options:</span> <span class="pre">Mapping</span> <span class="pre">|</span> <span class="pre">None</span></code></p></td>
+<td><p>fsspec-kafka options, such as <code class="docutils literal notranslate"><span class="pre">bootstrap.servers</span></code> and value format.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">filesystem</span></code></p></td>
+<td><p>Existing filesystem; takes precedence over <code class="docutils literal notranslate"><span class="pre">storage_options</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Requires fsspec-kafka. Construction reads <code class="docutils literal notranslate"><span class="pre">topic/_meta/watermarks.json</span></code> for the
+partitions and their offset ranges, and a zero-message read of the first partition for
+the schema. Each partition is then read as <code class="docutils literal notranslate"><span class="pre">topic/partition.arrow?start=&amp;limit=</span></code>.</p>
+<p>With the <code class="docutils literal notranslate"><span class="pre">pushdown</span></code> extra, predicates narrow those reads. <code class="docutils literal notranslate"><span class="pre">partition</span> <span class="pre">==</span></code> and
+<code class="docutils literal notranslate"><span class="pre">partition.is_in</span></code> skip partitions, comparisons on <code class="docutils literal notranslate"><span class="pre">offset</span></code> set <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">limit</span></code>, and
+a lower bound on <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> reads <code class="docutils literal notranslate"><span class="pre">topic/partition/&#64;timestamp.arrow</span></code> instead. Converting
+time-zone-aware timestamps needs time zone data, which the extra installs on Windows as
+<code class="docutils literal notranslate"><span class="pre">tzdata</span></code>. Other
+predicates, including <code class="docutils literal notranslate"><span class="pre">|</span></code>, read whole partitions. The full predicate is always applied
+to the rows read. A row limit stops reading further partitions, but each partition is
+read whole, because compaction leaves gaps between offsets.</p>
 </section>
 <section id="dialects-and-dependencies">
 <h2>Dialects and dependencies<a class="headerlink" href="#dialects-and-dependencies" title="Link to this heading">¶</a></h2>
@@ -300,6 +348,9 @@ fallback. SQL rewriting requires the extra.</p>
   </li>
   <li class="fd-toc-item" data-depth="1">
     <a href="#scan-db-sql">scan_db_sql</a>
+  </li>
+  <li class="fd-toc-item" data-depth="1">
+    <a href="#scan-kafka">scan_kafka</a>
   </li>
   <li class="fd-toc-item" data-depth="1">
     <a href="#dialects-and-dependencies">Dialects and dependencies</a>

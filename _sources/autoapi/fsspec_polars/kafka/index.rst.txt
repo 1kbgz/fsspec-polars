@@ -1,0 +1,82 @@
+fsspec_polars.kafka
+===================
+
+.. py:module:: fsspec_polars.kafka
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   fsspec_polars.kafka._Bounds
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   fsspec_polars.kafka.scan_kafka
+   fsspec_polars.kafka._read_path
+   fsspec_polars.kafka._bounds
+   fsspec_polars.kafka._conjuncts
+   fsspec_polars.kafka._narrow
+   fsspec_polars.kafka._literal
+   fsspec_polars.kafka._intersect
+
+
+Module Contents
+---------------
+
+.. py:class:: _Bounds
+
+   Read limits implied by a predicate. Ends are exclusive; `None` means unbounded.
+
+
+   .. py:attribute:: partitions
+      :type:  set[int] | None
+      :value: None
+
+
+
+   .. py:attribute:: offset_start
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:attribute:: offset_end
+      :type:  int | None
+      :value: None
+
+
+
+   .. py:attribute:: time_start
+      :type:  datetime.datetime | None
+      :value: None
+
+
+
+.. py:function:: scan_kafka(path: str, *, storage_options: collections.abc.Mapping[str, Any] | None = None, filesystem: Any | None = None) -> polars.LazyFrame
+
+   Scan a Kafka topic, or one partition, from fsspec-kafka as a Polars LazyFrame.
+
+   Filters on ``partition``, ``offset``, and ``timestamp`` choose which partitions and
+   offsets are read. Row limits stop reading further partitions, but each partition is
+   read whole, because compaction leaves gaps between offsets. Every filter is also applied to the rows read, so filters that cannot
+   narrow the read still apply. Pushdown needs the ``pushdown`` extra.
+
+
+.. py:function:: _read_path(topic: str, mark: collections.abc.Mapping[str, int], bounds: _Bounds) -> str | None
+
+.. py:function:: _bounds(predicate: polars.Expr) -> _Bounds
+
+.. py:function:: _conjuncts(tree: Any, exp: Any) -> collections.abc.Iterator[Any]
+
+.. py:function:: _narrow(bounds: _Bounds, condition: Any, exp: Any) -> None
+
+.. py:function:: _literal(value: Any, exp: Any) -> int | str | None
+
+.. py:function:: _intersect(current: set[int] | None, values: set[int]) -> set[int]
+

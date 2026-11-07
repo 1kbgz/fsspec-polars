@@ -11,6 +11,7 @@ Submodules
    :maxdepth: 1
 
    /autoapi/fsspec_polars/db/index
+   /autoapi/fsspec_polars/kafka/index
 
 
 Attributes
@@ -28,6 +29,7 @@ Functions
 
    fsspec_polars.scan_db_relation
    fsspec_polars.scan_db_sql
+   fsspec_polars.scan_kafka
 
 
 Package Contents
@@ -41,6 +43,16 @@ Package Contents
 .. py:function:: scan_db_sql(protocol: str, sql: str, *, storage_options: collections.abc.Mapping[str, Any] | None = None, filesystem: Any | None = None, schema: collections.abc.Mapping[str, polars.DataType] | None = None, dialect: str | None = None) -> polars.LazyFrame
 
    Scan an fsspec-db SQL query as a Polars LazyFrame.
+
+
+.. py:function:: scan_kafka(path: str, *, storage_options: collections.abc.Mapping[str, Any] | None = None, filesystem: Any | None = None) -> polars.LazyFrame
+
+   Scan a Kafka topic, or one partition, from fsspec-kafka as a Polars LazyFrame.
+
+   Filters on ``partition``, ``offset``, and ``timestamp`` choose which partitions and
+   offsets are read. Row limits stop reading further partitions, but each partition is
+   read whole, because compaction leaves gaps between offsets. Every filter is also applied to the rows read, so filters that cannot
+   narrow the read still apply. Pushdown needs the ``pushdown`` extra.
 
 
 .. py:data:: __version__

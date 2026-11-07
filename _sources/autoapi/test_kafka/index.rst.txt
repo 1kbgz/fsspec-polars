@@ -1,0 +1,87 @@
+test_kafka
+==========
+
+.. py:module:: test_kafka
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   test_kafka.EPOCH
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   test_kafka.FakeKafkaFileSystem
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   test_kafka.arrow_stream_bytes
+   test_kafka.data_paths
+   test_kafka.test_scan_kafka_reads_every_partition
+   test_kafka.test_scan_kafka_pushes_partition_and_offset_bounds
+   test_kafka.test_scan_kafka_reads_from_a_timestamp
+   test_kafka.test_scan_kafka_filters_what_it_cannot_push_down
+   test_kafka.test_scan_kafka_stops_reading_partitions_at_the_row_limit
+   test_kafka.test_scan_kafka_rejects_missing_partitions
+   test_kafka.test_scan_kafka_reads_redpanda
+   test_kafka.test_scan_kafka_source_runs_on_the_calling_thread
+   test_kafka.test_predicates_narrow_only_what_they_bound
+
+
+Module Contents
+---------------
+
+.. py:function:: arrow_stream_bytes(frame)
+
+.. py:data:: EPOCH
+
+.. py:class:: FakeKafkaFileSystem
+
+   Topic `orders` with two partitions. Compaction removed offsets 1 and 4 from
+   partition 0; message timestamps are offset seconds after EPOCH.
+
+
+   .. py:attribute:: paths
+      :value: []
+
+
+
+   .. py:attribute:: frame
+
+
+   .. py:method:: _strip_protocol(path)
+
+
+   .. py:method:: cat_file(path)
+
+
+.. py:function:: data_paths(fs)
+
+.. py:function:: test_scan_kafka_reads_every_partition()
+
+.. py:function:: test_scan_kafka_pushes_partition_and_offset_bounds()
+
+.. py:function:: test_scan_kafka_reads_from_a_timestamp()
+
+.. py:function:: test_scan_kafka_filters_what_it_cannot_push_down()
+
+.. py:function:: test_scan_kafka_stops_reading_partitions_at_the_row_limit()
+
+.. py:function:: test_scan_kafka_rejects_missing_partitions()
+
+.. py:function:: test_scan_kafka_reads_redpanda()
+
+.. py:function:: test_scan_kafka_source_runs_on_the_calling_thread(monkeypatch)
+
+.. py:function:: test_predicates_narrow_only_what_they_bound(monkeypatch)
+

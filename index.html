@@ -112,6 +112,11 @@
     </a>
   </li>
   <li class="fd-tree-item">
+    <a class="fd-link" href="autoapi/test_kafka/index.html">
+      <span class="fd-link-text">test_kafka</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
     <details class="fd-folder">
       <summary class="fd-folder-summary" title="Toggle section: fsspec_polars">
         <a class="fd-link" href="autoapi/fsspec_polars/index.html">
@@ -124,6 +129,11 @@
   <li class="fd-tree-item">
     <a class="fd-link" href="autoapi/fsspec_polars/db/index.html">
       <span class="fd-link-text">fsspec_polars.db</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
+    <a class="fd-link" href="autoapi/fsspec_polars/kafka/index.html">
+      <span class="fd-link-text">fsspec_polars.kafka</span>
     </a>
   </li>
 </ul>
@@ -167,7 +177,7 @@
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="fsspec-polars">
 <h1>fsspec-polars<a class="headerlink" href="#fsspec-polars" title="Link to this heading">¶</a></h1>
-<p>Scan fsspec-db relations and SQL queries as Polars LazyFrames.</p>
+<p>Scan fsspec-db relations, SQL queries, and fsspec-kafka topics as Polars LazyFrames.</p>
 <p><a class="reference external" href="https://github.com/1kbgz/fsspec-polars/actions/workflows/build.yaml"><img alt="Build Status" src="https://github.com/1kbgz/fsspec-polars/actions/workflows/build.yaml/badge.svg?branch=main&amp;event=push" /></a>
 <a class="reference external" href="https://codecov.io/gh/1kbgz/fsspec-polars"><img alt="codecov" src="https://codecov.io/gh/1kbgz/fsspec-polars/branch/main/graph/badge.svg" /></a>
 <a class="reference external" href="https://github.com/1kbgz/fsspec-polars"><img alt="License" src="https://img.shields.io/github/license/1kbgz/fsspec-polars" /></a>
@@ -180,7 +190,8 @@ apply remaining work locally.</p>
 <p><a class="reference internal" href="docs/tutorial.html"><span class="std std-doc">Query a SQLite table with Polars</span></a> creates its own database and
 runs a complete scan. <a class="reference internal" href="docs/how-to-scan.html"><span class="std std-doc">Scan relations and SQL</span></a> covers existing
 filesystems, explicit schemas, and optional SQL pushdown.</p>
-<p>The <a class="reference internal" href="docs/reference.html"><span class="std std-doc">scan reference</span></a> describes both public functions. Read
+<p>The <a class="reference internal" href="docs/reference.html"><span class="std std-doc">scan reference</span></a> describes the public functions, including
+<code class="docutils literal notranslate"><span class="pre">scan_kafka</span></code> for Kafka topics. Read
 <a class="reference internal" href="docs/explanation.html"><span class="std std-doc">Query pushdown and materialization</span></a> for execution costs and
 fallback behavior.</p>
 </section>
