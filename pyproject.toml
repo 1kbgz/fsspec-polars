@@ -51,7 +51,7 @@ develop = [
     "hatch-rs",
     "hatchling",
     "mdformat",
-    "mdformat-frontmatter",
+    "mdformat-myst",
     "mdformat-tables>=1",
     "polars-io-tools>=0.2.5; python_version >= '3.11'",
     "tzdata; sys_platform == 'win32'",
