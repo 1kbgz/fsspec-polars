@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import os
-from collections.abc import Iterator, Mapping, Sequence
+import queue
+import threading
+from collections.abc import Callable, Iterator, Mapping, Sequence
 from typing import Any
 
 import fsspec
@@ -69,9 +71,49 @@ def _scan_source(source: DataSource, path: str) -> pl.LazyFrame:
         n_rows: int | None,
         batch_size: int | None,
     ) -> Iterator[pl.DataFrame]:
-        return _source_frames(source, path, with_columns, _normalize_predicate(predicate), n_rows, batch_size)
+        return _on_one_thread(lambda: _source_frames(source, path, with_columns, _normalize_predicate(predicate), n_rows, batch_size))
 
     return register_io_source(source_generator, schema=schema)
+
+
+def _on_one_thread(frames: Callable[[], Iterator[pl.DataFrame]]) -> Iterator[pl.DataFrame]:
+    """Runs ``frames`` on one thread of its own and yields what it produces.
+
+    Polars may advance an I/O source from a different worker thread for each batch, and some
+    sources only work on the thread that created them: fsspec-data's native streams abort the
+    process otherwise, and sqlite3 connections raise."""
+    items: queue.Queue[tuple[str, Any]] = queue.Queue(maxsize=1)
+    stopped = threading.Event()
+
+    def put(item: tuple[str, Any]) -> bool:
+        while not stopped.is_set():
+            try:
+                items.put(item, timeout=0.1)
+                return True
+            except queue.Full:
+                continue
+        return False
+
+    def run() -> None:
+        try:
+            for frame in frames():
+                if not put(("frame", frame)):
+                    return
+            put(("done", None))
+        except Exception as error:  # noqa: BLE001  re-raised by the consumer
+            put(("error", error))
+
+    threading.Thread(target=run, daemon=True).start()
+    try:
+        while True:
+            kind, value = items.get()
+            if kind == "error":
+                raise value
+            if kind == "done":
+                return
+            yield value
+    finally:
+        stopped.set()
 
 
 def _source_frames(

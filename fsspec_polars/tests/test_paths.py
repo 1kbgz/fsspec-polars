@@ -1,10 +1,12 @@
 import sqlite3
 import sys
+import threading
 import types
 from urllib.parse import parse_qsl, urlsplit
 
 import fsspec
 import polars as pl
+import pyarrow as pa
 import pytest
 from fsspec_data import DataSource, DataViewFileSystem, FileDataSource
 
@@ -126,3 +128,40 @@ def test_scan_path_reads_local_files_without_fsspec_fuse(tmp_path, monkeypatch):
     (tmp_path / "orders.csv").write_text("id\n1\n2\n")
 
     assert scan_path(str(tmp_path / "orders.csv")).collect().height == 2
+
+
+def test_sources_are_read_on_one_thread_however_polars_advances_them(monkeypatch):
+    threads = set()
+
+    class ThreadBound(DataSource):
+        def schema(self, path):
+            return pa.schema([("n", pa.int64())])
+
+        def scan(self, path, **options):
+            for n in range(3):
+                threads.add(threading.get_ident())
+                yield pa.record_batch([pa.array([n])], names=["n"])
+
+    monkeypatch.setattr(paths_mod, "register_io_source", lambda source, schema: source)
+    generator = paths_mod._scan_source(ThreadBound(), "x")(None, None, None, 1)
+    frames = []
+    for _ in range(3):
+        worker = threading.Thread(target=lambda: frames.append(next(generator)))
+        worker.start()
+        worker.join()
+
+    assert [frame.item() for frame in frames] == [0, 1, 2]
+    assert len(threads) == 1
+    assert threading.get_ident() not in threads
+
+
+def test_source_errors_reach_the_scan(memory):
+    class Failing(DataSource):
+        def schema(self, path):
+            return pa.schema([("n", pa.int64())])
+
+        def scan(self, path, **options):
+            raise OSError("source is gone")
+
+    with pytest.raises(Exception, match="source is gone"):
+        paths_mod._scan_source(Failing(), "x").collect()
