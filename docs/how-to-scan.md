@@ -43,6 +43,25 @@ result = users.limit(10).collect()
 Match the schema to the actual source columns and dtypes. Keep the filesystem alive
 until collection completes.
 
+## Scan a mounted or viewed file
+
+`scan_path` takes a local path or URL and scans the table behind it. A file rendered by an
+fsspec-data view, directly or through an fsspec-fuse mount, scans its source, so filters on a
+mounted database view reach the database:
+
+```python
+import polars as pl
+from fsspec_fuse import mount
+
+from fsspec_polars import scan_path
+
+with mount("dataview::db+sqlite:///shop.db", "/mnt/shop"):
+    big = scan_path("/mnt/shop/main/orders.parquet").filter(pl.col("amount") > 8).collect()
+```
+
+The same scan works without a mount:
+`scan_path("dataview://main/orders.parquet::db+sqlite:///shop.db")`.
+
 ## Enable SQL translation
 
 Install optional pushdown helpers:

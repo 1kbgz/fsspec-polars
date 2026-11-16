@@ -1,6 +1,7 @@
 # fsspec-polars
 
-Scan fsspec-db relations, SQL queries, and fsspec-kafka topics as Polars LazyFrames.
+Scan fsspec-db relations, SQL queries, fsspec-kafka topics, and files rendered by
+fsspec-data views or fsspec-fuse mounts as Polars LazyFrames.
 
 [![Build Status](https://github.com/1kbgz/fsspec-polars/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/1kbgz/fsspec-polars/actions/workflows/build.yaml)
 [![codecov](https://codecov.io/gh/1kbgz/fsspec-polars/branch/main/graph/badge.svg)](https://codecov.io/gh/1kbgz/fsspec-polars)
