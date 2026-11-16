@@ -69,18 +69,30 @@ def _scan_source(source: DataSource, path: str) -> pl.LazyFrame:
         n_rows: int | None,
         batch_size: int | None,
     ) -> Iterator[pl.DataFrame]:
-        predicate_expr = _normalize_predicate(predicate)
-        remaining = n_rows
-        stream = source.scan(path, batch_size=batch_size or 1024, row_limit=n_rows if predicate_expr is None else None)
-        for batch in stream:
-            frame = _apply_local_frame_ops(pl.from_arrow(pa.Table.from_batches([batch])), with_columns, predicate_expr, remaining)
-            if remaining is not None:
-                remaining -= frame.height
-            yield frame
-            if remaining is not None and remaining <= 0:
-                return
+        return _source_frames(source, path, with_columns, _normalize_predicate(predicate), n_rows, batch_size)
 
     return register_io_source(source_generator, schema=schema)
+
+
+def _source_frames(
+    source: DataSource,
+    path: str,
+    with_columns: list[str] | None,
+    predicate: pl.Expr | None,
+    n_rows: int | None,
+    batch_size: int | None,
+) -> Iterator[pl.DataFrame]:
+    """Frames of ``path`` with projection, predicate, and row limit applied batch by batch.
+    The source applies the row limit itself only when there is no predicate."""
+    remaining = n_rows
+    stream = source.scan(path, batch_size=batch_size or 1024, row_limit=n_rows if predicate is None else None)
+    for batch in stream:
+        frame = _apply_local_frame_ops(pl.from_arrow(pa.Table.from_batches([batch])), with_columns, predicate, remaining)
+        if remaining is not None:
+            remaining -= frame.height
+        yield frame
+        if remaining is not None and remaining <= 0:
+            return
 
 
 _READERS = {

@@ -6,8 +6,9 @@ from urllib.parse import parse_qsl, urlsplit
 import fsspec
 import polars as pl
 import pytest
-from fsspec_data import DataSource, DataViewFileSystem
+from fsspec_data import DataSource, DataViewFileSystem, FileDataSource
 
+import fsspec_polars.paths as paths_mod
 from fsspec_polars import scan_path
 
 
@@ -63,6 +64,8 @@ def test_scan_path_resolves_mounted_paths(memory, monkeypatch, tmp_path):
     monkeypatch.setitem(sys.modules, "fsspec_fuse", fuse)
 
     assert scan_path(mounted).select(pl.col("amount").sum()).collect().item() == 35
+    (tmp_path / "local.csv").write_text("id\n1\n")
+    assert scan_path(tmp_path / "local.csv").collect().height == 1
 
 
 def test_scan_path_pushes_queries_on_database_views_to_the_database(tmp_path, monkeypatch):
@@ -99,3 +102,27 @@ def test_scan_path_pushes_queries_on_database_views_to_the_database(tmp_path, mo
     assert urlsplit(reads[-1]).path == "/main/orders.arrow"
     assert set(query["columns"].split(",")) == {"customer", "amount"}
     assert "amount" in query["where"]
+
+
+def test_source_frames_apply_projection_predicate_and_limit_per_batch(memory):
+    source = FileDataSource(memory)
+    frames = list(paths_mod._source_frames(source, "/data/orders.csv", ["amount"], pl.col("customer") == "a", 1, 1))
+
+    assert pl.concat(frames).to_dicts() == [{"amount": 10}]
+    assert pl.concat(paths_mod._source_frames(source, "/data/orders.csv", None, None, 2, 1)).height == 2
+
+
+def test_rendered_files_are_read_by_their_format(memory):
+    view = DataViewFileSystem("/data", fs=memory, mapping={"table": ["parquet", "csv", "jsonl", "json", "arrow", "avro"]})
+
+    for name in ("orders.parquet", "orders.csv", "orders.jsonl", "orders.json", "orders.arrow"):
+        assert paths_mod._scan_file(view, name).collect().height == 3
+    with pytest.raises(ValueError, match="cannot scan avro files"):
+        paths_mod._scan_file(view, "orders.avro")
+
+
+def test_scan_path_reads_local_files_without_fsspec_fuse(tmp_path, monkeypatch):
+    monkeypatch.setitem(sys.modules, "fsspec_fuse", None)
+    (tmp_path / "orders.csv").write_text("id\n1\n2\n")
+
+    assert scan_path(str(tmp_path / "orders.csv")).collect().height == 2
