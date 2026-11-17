@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 from collections.abc import Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -37,7 +36,7 @@ def scan_kafka(
     """
     fs = _filesystem("kafka", storage_options, filesystem)
     topic, _, partition = fs._strip_protocol(path).strip("/").partition("/")
-    marks = json.loads(fs.cat_file(f"{topic}/_meta/watermarks.json"))
+    marks = fs.metadata(topic)["partitions"]
     if partition:
         marks = [mark for mark in marks if mark["partition"] == int(partition)]
     if not marks:
@@ -53,10 +52,11 @@ def scan_kafka(
         predicate_expr = _normalize_predicate(predicate)
         bounds = _bounds(predicate_expr) if predicate_expr is not None else _Bounds()
         remaining = n_rows
+        starts = fs.offsets_for_time(topic, bounds.time_start) if bounds.time_start is not None else {}
         for mark in marks:
             if remaining == 0:
                 return
-            read_path = _read_path(topic, mark, bounds)
+            read_path = _read_path(topic, mark, bounds, starts.get(mark["partition"]))
             if read_path is None:
                 continue
             frame = _apply_local_frame_ops(_read_arrow_frame(fs.cat_file(read_path)), with_columns, predicate_expr, remaining)
@@ -67,14 +67,13 @@ def scan_kafka(
     return register_io_source(source_generator, schema=schema)
 
 
-def _read_path(topic: str, mark: Mapping[str, int], bounds: _Bounds) -> str | None:
+def _read_path(topic: str, mark: Mapping[str, int], bounds: _Bounds, time_start: int | None = None) -> str | None:
+    """The bounded read of one partition. ``time_start`` is the partition's first offset at
+    or after ``bounds.time_start``."""
     partition = mark["partition"]
     if bounds.partitions is not None and partition not in bounds.partitions:
         return None
-    if bounds.time_start is not None and bounds.offset_start is None:
-        # Time reads run to the high watermark; offset ends are applied to the rows read.
-        return f"{topic}/{partition}/@{bounds.time_start.isoformat()}.arrow"
-    start = max(mark["low"], bounds.offset_start if bounds.offset_start is not None else mark["low"])
+    start = max([mark["low"], *(bound for bound in (bounds.offset_start, time_start) if bound is not None)])
     end = min(mark["high"], bounds.offset_end if bounds.offset_end is not None else mark["high"])
     if start >= end:
         return None

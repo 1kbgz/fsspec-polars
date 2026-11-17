@@ -80,13 +80,13 @@ scan_kafka(path, *, storage_options=None, filesystem=None)
 | `storage_options: Mapping \| None` | fsspec-kafka options, such as `bootstrap.servers` and value format. |
 | `filesystem`                       | Existing filesystem; takes precedence over `storage_options`.       |
 
-Requires fsspec-kafka. Construction reads `topic/_meta/watermarks.json` for the
+Requires fsspec-kafka 0.3 or later. Construction reads the topic's `metadata` for the
 partitions and their offset ranges, and a zero-message read of the first partition for
 the schema. Each partition is then read as `topic/partition.arrow?start=&limit=`.
 
 With the `pushdown` extra, predicates narrow those reads. `partition ==` and
 `partition.is_in` skip partitions, comparisons on `offset` set `start` and `limit`, and
-a lower bound on `timestamp` reads `topic/partition/@timestamp.arrow` instead. Converting
+a lower bound on `timestamp` starts each read at the offset `offsets_for_time` returns. Converting
 time-zone-aware timestamps needs time zone data, which the extra installs on Windows as
 `tzdata`. Other
 predicates, including `|`, read whole partitions. The full predicate is always applied
