@@ -62,6 +62,12 @@ Module Contents
    .. py:method:: _strip_protocol(path)
 
 
+   .. py:method:: metadata(path)
+
+
+   .. py:method:: offsets_for_time(path, time)
+
+
    .. py:method:: cat_file(path)
 
 

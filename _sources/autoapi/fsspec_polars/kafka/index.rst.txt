@@ -68,7 +68,11 @@ Module Contents
    narrow the read still apply. Pushdown needs the ``pushdown`` extra.
 
 
-.. py:function:: _read_path(topic: str, mark: collections.abc.Mapping[str, int], bounds: _Bounds) -> str | None
+.. py:function:: _read_path(topic: str, mark: collections.abc.Mapping[str, int], bounds: _Bounds, time_start: int | None = None) -> str | None
+
+   The bounded read of one partition. ``time_start`` is the partition's first offset at
+   or after ``bounds.time_start``.
+
 
 .. py:function:: _bounds(predicate: polars.Expr) -> _Bounds
 

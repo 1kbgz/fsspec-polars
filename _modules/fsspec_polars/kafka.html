@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fsspec_polars.kafka &#8212; fsspec-polars v0.1.0</title>
+    <title>fsspec_polars.kafka &#8212; fsspec-polars v0.2.0</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/fuma.css?v=ca04d621" />
     <link rel="stylesheet" type="text/css" href="../../_static/fuma-code.css?v=a950e949" />
@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../_static/fonts/fuma-fonts.css?v=c2892c73" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/custom.css?v=88c24c6a" />
-    <script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -453,7 +453,7 @@ window.runMermaid = runMermaid;</script>
   <div class="fd-subnav-inner">
     <button type="button" class="fd-icon-button fd-sidebar-toggle" aria-controls="fd-sidebar" aria-expanded="false" aria-label="Toggle navigation" title="Toggle navigation">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="fd-icon "><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
-    </button><a class="fd-brand" href="../../index.html"><span class="fd-brand-name">fsspec-polars v0.1.0</span>
+    </button><a class="fd-brand" href="../../index.html"><span class="fd-brand-name">fsspec-polars v0.2.0</span>
 </a>
 
     <div class="fd-nav-actions">
@@ -468,7 +468,7 @@ window.runMermaid = runMermaid;</script>
 
 <aside id="fd-sidebar" aria-label="Documentation">
   <div class="fd-sidebar-header">
-    <div class="fd-sidebar-brand-row"><a class="fd-brand" href="../../index.html"><span class="fd-brand-name">fsspec-polars v0.1.0</span>
+    <div class="fd-sidebar-brand-row"><a class="fd-brand" href="../../index.html"><span class="fd-brand-name">fsspec-polars v0.2.0</span>
 </a>
       <button type="button" class="fd-icon-button fd-sidebar-collapse" aria-label="Collapse sidebar" title="Collapse sidebar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="fd-icon "><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg></button>
     </div>
@@ -589,7 +589,6 @@ window.runMermaid = runMermaid;</script>
   <h1>Source code for fsspec_polars.kafka</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTC</span><span class="p">,</span> <span class="n">datetime</span>
@@ -631,7 +630,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    """</span>
     <span class="n">fs</span> <span class="o">=</span> <span class="n">_filesystem</span><span class="p">(</span><span class="s2">"kafka"</span><span class="p">,</span> <span class="n">storage_options</span><span class="p">,</span> <span class="n">filesystem</span><span class="p">)</span>
     <span class="n">topic</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">partition</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">_strip_protocol</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
-    <span class="n">marks</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">cat_file</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">/_meta/watermarks.json"</span><span class="p">))</span>
+    <span class="n">marks</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">metadata</span><span class="p">(</span><span class="n">topic</span><span class="p">)[</span><span class="s2">"partitions"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">partition</span><span class="p">:</span>
         <span class="n">marks</span> <span class="o">=</span> <span class="p">[</span><span class="n">mark</span> <span class="k">for</span> <span class="n">mark</span> <span class="ow">in</span> <span class="n">marks</span> <span class="k">if</span> <span class="n">mark</span><span class="p">[</span><span class="s2">"partition"</span><span class="p">]</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">partition</span><span class="p">)]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">marks</span><span class="p">:</span>
@@ -647,10 +646,11 @@ window.runMermaid = runMermaid;</script>
         <span class="n">predicate_expr</span> <span class="o">=</span> <span class="n">_normalize_predicate</span><span class="p">(</span><span class="n">predicate</span><span class="p">)</span>
         <span class="n">bounds</span> <span class="o">=</span> <span class="n">_bounds</span><span class="p">(</span><span class="n">predicate_expr</span><span class="p">)</span> <span class="k">if</span> <span class="n">predicate_expr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_Bounds</span><span class="p">()</span>
         <span class="n">remaining</span> <span class="o">=</span> <span class="n">n_rows</span>
+        <span class="n">starts</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">offsets_for_time</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">bounds</span><span class="o">.</span><span class="n">time_start</span><span class="p">)</span> <span class="k">if</span> <span class="n">bounds</span><span class="o">.</span><span class="n">time_start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">mark</span> <span class="ow">in</span> <span class="n">marks</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">remaining</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">return</span>
-            <span class="n">read_path</span> <span class="o">=</span> <span class="n">_read_path</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">mark</span><span class="p">,</span> <span class="n">bounds</span><span class="p">)</span>
+            <span class="n">read_path</span> <span class="o">=</span> <span class="n">_read_path</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span> <span class="n">mark</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">starts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">mark</span><span class="p">[</span><span class="s2">"partition"</span><span class="p">]))</span>
             <span class="k">if</span> <span class="n">read_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">frame</span> <span class="o">=</span> <span class="n">_apply_local_frame_ops</span><span class="p">(</span><span class="n">_read_arrow_frame</span><span class="p">(</span><span class="n">fs</span><span class="o">.</span><span class="n">cat_file</span><span class="p">(</span><span class="n">read_path</span><span class="p">)),</span> <span class="n">with_columns</span><span class="p">,</span> <span class="n">predicate_expr</span><span class="p">,</span> <span class="n">remaining</span><span class="p">)</span>
@@ -664,14 +664,13 @@ window.runMermaid = runMermaid;</script>
 
 <div class="viewcode-block" id="_read_path">
 <a class="viewcode-back" href="../../autoapi/fsspec_polars/kafka/index.html#fsspec_polars._read_path">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">_read_path</span><span class="p">(</span><span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mark</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">bounds</span><span class="p">:</span> <span class="n">_Bounds</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_read_path</span><span class="p">(</span><span class="n">topic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mark</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">bounds</span><span class="p">:</span> <span class="n">_Bounds</span><span class="p">,</span> <span class="n">time_start</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""The bounded read of one partition. ``time_start`` is the partition's first offset at</span>
+<span class="sd">    or after ``bounds.time_start``."""</span>
     <span class="n">partition</span> <span class="o">=</span> <span class="n">mark</span><span class="p">[</span><span class="s2">"partition"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">bounds</span><span class="o">.</span><span class="n">partitions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">partition</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bounds</span><span class="o">.</span><span class="n">partitions</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">bounds</span><span class="o">.</span><span class="n">time_start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">bounds</span><span class="o">.</span><span class="n">offset_start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># Time reads run to the high watermark; offset ends are applied to the rows read.</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">partition</span><span class="si">}</span><span class="s2">/@</span><span class="si">{</span><span class="n">bounds</span><span class="o">.</span><span class="n">time_start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span><span class="si">}</span><span class="s2">.arrow"</span>
-    <span class="n">start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">mark</span><span class="p">[</span><span class="s2">"low"</span><span class="p">],</span> <span class="n">bounds</span><span class="o">.</span><span class="n">offset_start</span> <span class="k">if</span> <span class="n">bounds</span><span class="o">.</span><span class="n">offset_start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">mark</span><span class="p">[</span><span class="s2">"low"</span><span class="p">])</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">mark</span><span class="p">[</span><span class="s2">"low"</span><span class="p">],</span> <span class="o">*</span><span class="p">(</span><span class="n">bound</span> <span class="k">for</span> <span class="n">bound</span> <span class="ow">in</span> <span class="p">(</span><span class="n">bounds</span><span class="o">.</span><span class="n">offset_start</span><span class="p">,</span> <span class="n">time_start</span><span class="p">)</span> <span class="k">if</span> <span class="n">bound</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)])</span>
     <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">mark</span><span class="p">[</span><span class="s2">"high"</span><span class="p">],</span> <span class="n">bounds</span><span class="o">.</span><span class="n">offset_end</span> <span class="k">if</span> <span class="n">bounds</span><span class="o">.</span><span class="n">offset_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">mark</span><span class="p">[</span><span class="s2">"high"</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>

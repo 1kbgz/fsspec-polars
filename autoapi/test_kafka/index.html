@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>test_kafka &#8212; fsspec-polars v0.1.0</title>
+    <title>test_kafka &#8212; fsspec-polars v0.2.0</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/fuma.css?v=ca04d621" />
     <link rel="stylesheet" type="text/css" href="../../_static/fuma-code.css?v=a950e949" />
@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=6a604523" />
     <link rel="stylesheet" type="text/css" href="../../_static/fonts/fuma-fonts.css?v=c2892c73" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/custom.css?v=88c24c6a" />
-    <script src="../../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,7 +49,7 @@
   <div class="fd-subnav-inner">
     <button type="button" class="fd-icon-button fd-sidebar-toggle" aria-controls="fd-sidebar" aria-expanded="false" aria-label="Toggle navigation" title="Toggle navigation">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="fd-icon "><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
-    </button><a class="fd-brand" href="../../index.html"><span class="fd-brand-name">fsspec-polars v0.1.0</span>
+    </button><a class="fd-brand" href="../../index.html"><span class="fd-brand-name">fsspec-polars v0.2.0</span>
 </a>
 
     <div class="fd-nav-actions">
@@ -64,7 +64,7 @@
 
 <aside id="fd-sidebar" aria-label="Documentation">
   <div class="fd-sidebar-header">
-    <div class="fd-sidebar-brand-row"><a class="fd-brand" href="../../index.html"><span class="fd-brand-name">fsspec-polars v0.1.0</span>
+    <div class="fd-sidebar-brand-row"><a class="fd-brand" href="../../index.html"><span class="fd-brand-name">fsspec-polars v0.2.0</span>
 </a>
       <button type="button" class="fd-icon-button fd-sidebar-collapse" aria-label="Collapse sidebar" title="Collapse sidebar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="fd-icon "><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg></button>
     </div>
@@ -203,6 +203,12 @@
   </li>
   <li class="fd-toc-item" data-depth="3">
     <a href="#test_kafka.FakeKafkaFileSystem._strip_protocol">FakeKafkaFileSystem._strip_protocol()</a>
+  </li>
+  <li class="fd-toc-item" data-depth="3">
+    <a href="#test_kafka.FakeKafkaFileSystem.metadata">FakeKafkaFileSystem.metadata()</a>
+  </li>
+  <li class="fd-toc-item" data-depth="3">
+    <a href="#test_kafka.FakeKafkaFileSystem.offsets_for_time">FakeKafkaFileSystem.offsets_for_time()</a>
   </li>
   <li class="fd-toc-item" data-depth="3">
     <a href="#test_kafka.FakeKafkaFileSystem.cat_file">FakeKafkaFileSystem.cat_file()</a>
@@ -348,6 +354,16 @@ partition 0; message timestamps are offset seconds after EPOCH.</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="test_kafka.FakeKafkaFileSystem.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_kafka.FakeKafkaFileSystem.metadata" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="test_kafka.FakeKafkaFileSystem.offsets_for_time">
+<span class="sig-name descname"><span class="pre">offsets_for_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_kafka.FakeKafkaFileSystem.offsets_for_time" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="test_kafka.FakeKafkaFileSystem.cat_file">
 <span class="sig-name descname"><span class="pre">cat_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#test_kafka.FakeKafkaFileSystem.cat_file" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -469,6 +485,12 @@ partition 0; message timestamps are offset seconds after EPOCH.</p>
   </li>
   <li class="fd-toc-item" data-depth="3">
     <a href="#test_kafka.FakeKafkaFileSystem._strip_protocol">FakeKafkaFileSystem._strip_protocol()</a>
+  </li>
+  <li class="fd-toc-item" data-depth="3">
+    <a href="#test_kafka.FakeKafkaFileSystem.metadata">FakeKafkaFileSystem.metadata()</a>
+  </li>
+  <li class="fd-toc-item" data-depth="3">
+    <a href="#test_kafka.FakeKafkaFileSystem.offsets_for_time">FakeKafkaFileSystem.offsets_for_time()</a>
   </li>
   <li class="fd-toc-item" data-depth="3">
     <a href="#test_kafka.FakeKafkaFileSystem.cat_file">FakeKafkaFileSystem.cat_file()</a>
