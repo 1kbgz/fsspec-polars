@@ -32,7 +32,7 @@ classifiers = [
 
 dependencies = [
     "fsspec",
-    "fsspec-data>=0.7.0,<0.8",
+    "fsspec-data>=0.8.0,<0.9",
     "fsspec-db",
     "polars",
     "pyarrow",
