@@ -1,0 +1,52 @@
+test_paths
+==========
+
+.. py:module:: test_paths
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   test_paths.memory
+   test_paths.test_scan_path_reads_local_files
+   test_paths.test_scan_path_reads_the_node_behind_a_rendered_file
+   test_paths.test_scan_path_reads_converted_views_through_the_rendered_file
+   test_paths.test_scan_path_rejects_files_that_are_not_tables
+   test_paths.test_scan_path_resolves_mounted_paths
+   test_paths.test_scan_path_pushes_queries_on_database_views_to_the_database
+   test_paths.test_source_frames_apply_projection_predicate_and_limit_per_batch
+   test_paths.test_rendered_files_are_read_by_their_format
+   test_paths.test_scan_path_reads_local_files_without_fsspec_fuse
+   test_paths.test_sources_are_read_on_one_thread_however_polars_advances_them
+   test_paths.test_source_errors_reach_the_scan
+
+
+Module Contents
+---------------
+
+.. py:function:: memory()
+
+.. py:function:: test_scan_path_reads_local_files(tmp_path)
+
+.. py:function:: test_scan_path_reads_the_node_behind_a_rendered_file(memory)
+
+.. py:function:: test_scan_path_reads_converted_views_through_the_rendered_file(memory)
+
+.. py:function:: test_scan_path_rejects_files_that_are_not_tables(memory)
+
+.. py:function:: test_scan_path_resolves_mounted_paths(memory, monkeypatch, tmp_path)
+
+.. py:function:: test_scan_path_pushes_queries_on_database_views_to_the_database(tmp_path, monkeypatch)
+
+.. py:function:: test_source_frames_apply_projection_predicate_and_limit_per_batch(memory)
+
+.. py:function:: test_rendered_files_are_read_by_their_format(memory)
+
+.. py:function:: test_scan_path_reads_local_files_without_fsspec_fuse(tmp_path, monkeypatch)
+
+.. py:function:: test_sources_are_read_on_one_thread_however_polars_advances_them(monkeypatch)
+
+.. py:function:: test_source_errors_reach_the_scan(memory)
+

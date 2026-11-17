@@ -113,6 +113,11 @@
     </a>
   </li>
   <li class="fd-tree-item">
+    <a class="fd-link" href="../autoapi/test_paths/index.html">
+      <span class="fd-link-text">test_paths</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
     <a class="fd-link" href="../autoapi/test_kafka/index.html">
       <span class="fd-link-text">test_kafka</span>
     </a>
@@ -135,6 +140,11 @@
   <li class="fd-tree-item">
     <a class="fd-link" href="../autoapi/fsspec_polars/kafka/index.html">
       <span class="fd-link-text">fsspec_polars.kafka</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
+    <a class="fd-link" href="../autoapi/fsspec_polars/paths/index.html">
+      <span class="fd-link-text">fsspec_polars.paths</span>
     </a>
   </li>
 </ul>
@@ -166,6 +176,9 @@
     <div id="fd-toc-mobile" hidden><ul class="fd-toc-list">
   <li class="fd-toc-item" data-depth="1">
     <a href="#scan-db-relation">scan_db_relation</a>
+  </li>
+  <li class="fd-toc-item" data-depth="1">
+    <a href="#scan-path">scan_path</a>
   </li>
   <li class="fd-toc-item" data-depth="1">
     <a href="#scan-db-sql">scan_db_sql</a>
@@ -224,6 +237,34 @@ are replaced. The backend must return Arrow IPC stream bytes from <code class="d
 Optimizer hints replace existing <code class="docutils literal notranslate"><span class="pre">columns</span></code>, <code class="docutils literal notranslate"><span class="pre">where</span></code>, and <code class="docutils literal notranslate"><span class="pre">limit</span></code> query parameters;
 other query parameters remain. Original values of those three keys are not source
 constraints.</p>
+</section>
+<section id="scan-path">
+<h2><code class="docutils literal notranslate"><span class="pre">scan_path</span></code><a class="headerlink" href="#scan-path" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scan_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">storage_options</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">path:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">os.PathLike</span></code></p></td>
+<td><p>Local path, possibly on an fsspec-fuse mount, or an fsspec URL.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">storage_options:</span> <span class="pre">Mapping</span> <span class="pre">|</span> <span class="pre">None</span></code></p></td>
+<td><p>Options for opening a URL, such as <code class="docutils literal notranslate"><span class="pre">dataview</span></code> schema options.</p></td>
+</tr>
+</tbody>
+</table>
+<p>A local path on a mount made in this process, or carrying <code class="docutils literal notranslate"><span class="pre">user.fsspec.url</span></code>, resolves
+through <code class="docutils literal notranslate"><span class="pre">fsspec_fuse.resolve</span></code> when fsspec-fuse is installed; other local paths open with
+fsspec. A path rendered by a <code class="docutils literal notranslate"><span class="pre">dataview</span></code> resolves to its node: a database relation scans
+through <code class="docutils literal notranslate"><span class="pre">scan_db_relation</span></code> with pushdown, and other table nodes scan through the source’s
+<code class="docutils literal notranslate"><span class="pre">DataSource.scan</span></code>, with projection, predicate, and row limit applied locally. A view with
+schema options (<code class="docutils literal notranslate"><span class="pre">converts</span></code>) is read through its rendered file instead, since its rows differ
+from the source’s. A rendered path that is not a table raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>.</p>
 </section>
 <section id="scan-db-sql">
 <h2><code class="docutils literal notranslate"><span class="pre">scan_db_sql</span></code><a class="headerlink" href="#scan-db-sql" title="Link to this heading">¶</a></h2>
@@ -345,6 +386,9 @@ fallback. SQL rewriting requires the extra.</p>
     </svg><ul class="fd-toc-list">
   <li class="fd-toc-item" data-depth="1">
     <a href="#scan-db-relation">scan_db_relation</a>
+  </li>
+  <li class="fd-toc-item" data-depth="1">
+    <a href="#scan-path">scan_path</a>
   </li>
   <li class="fd-toc-item" data-depth="1">
     <a href="#scan-db-sql">scan_db_sql</a>

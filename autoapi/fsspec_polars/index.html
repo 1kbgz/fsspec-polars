@@ -113,6 +113,11 @@
     </a>
   </li>
   <li class="fd-tree-item">
+    <a class="fd-link" href="../test_paths/index.html">
+      <span class="fd-link-text">test_paths</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
     <a class="fd-link" href="../test_kafka/index.html">
       <span class="fd-link-text">test_kafka</span>
     </a>
@@ -135,6 +140,11 @@
   <li class="fd-tree-item">
     <a class="fd-link" href="kafka/index.html">
       <span class="fd-link-text">fsspec_polars.kafka</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
+    <a class="fd-link" href="paths/index.html">
+      <span class="fd-link-text">fsspec_polars.paths</span>
     </a>
   </li>
 </ul>
@@ -186,6 +196,9 @@
     <a href="#fsspec_polars.scan_kafka">scan_kafka()</a>
   </li>
   <li class="fd-toc-item" data-depth="2">
+    <a href="#fsspec_polars.scan_path">scan_path()</a>
+  </li>
+  <li class="fd-toc-item" data-depth="2">
     <a href="#fsspec_polars.__version__">__version__</a>
   </li>
 </ul>
@@ -212,6 +225,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="db/index.html">fsspec_polars.db</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kafka/index.html">fsspec_polars.kafka</a></li>
+<li class="toctree-l1"><a class="reference internal" href="paths/index.html">fsspec_polars.paths</a></li>
 </ul>
 </div>
 </section>
@@ -238,6 +252,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#fsspec_polars.scan_kafka" title="fsspec_polars.scan_kafka"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan_kafka</span></code></a>(path, *[, storage_options, filesystem]) → polars.LazyFrame</p></td>
 <td><p>Scan a Kafka topic, or one partition, from fsspec-kafka as a Polars LazyFrame.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#fsspec_polars.scan_path" title="fsspec_polars.scan_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan_path</span></code></a>(path, *[, storage_options]) → polars.LazyFrame</p></td>
+<td><p>Scan the table behind <code class="docutils literal notranslate"><span class="pre">path</span></code> as a Polars LazyFrame.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -263,6 +280,17 @@
 offsets are read. Row limits stop reading further partitions, but each partition is
 read whole, because compaction leaves gaps between offsets. Every filter is also applied to the rows read, so filters that cannot
 narrow the read still apply. Pushdown needs the <code class="docutils literal notranslate"><span class="pre">pushdown</span></code> extra.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fsspec_polars.scan_path">
+<span class="sig-prename descclassname"><span class="pre">fsspec_polars.</span></span><span class="sig-name descname"><span class="pre">scan_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">os.PathLike</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">collections.abc.Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">polars.LazyFrame</span></span></span><a class="reference internal" href="../../_modules/fsspec_polars/paths.html#scan_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fsspec_polars.scan_path" title="Link to this definition">¶</a></dt>
+<dd><p>Scan the table behind <code class="docutils literal notranslate"><span class="pre">path</span></code> as a Polars LazyFrame.</p>
+<p><code class="docutils literal notranslate"><span class="pre">path</span></code> is a local path, which may be on an fsspec-fuse mount, or an fsspec URL such as
+<code class="docutils literal notranslate"><span class="pre">dataview://main/orders.parquet::db+sqlite:///shop.db</span></code>. Paths rendered by a data view
+resolve to the node they come from, so a scan of a mounted <code class="docutils literal notranslate"><span class="pre">orders.parquet</span></code> reads the
+database relation instead of the file. Database relations take projection, predicate,
+and row-limit pushdown through <code class="docutils literal notranslate"><span class="pre">scan_db_relation</span></code>; other sources apply them locally.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -326,6 +354,9 @@ narrow the read still apply. Pushdown needs the <code class="docutils literal no
   </li>
   <li class="fd-toc-item" data-depth="2">
     <a href="#fsspec_polars.scan_kafka">scan_kafka()</a>
+  </li>
+  <li class="fd-toc-item" data-depth="2">
+    <a href="#fsspec_polars.scan_path">scan_path()</a>
   </li>
   <li class="fd-toc-item" data-depth="2">
     <a href="#fsspec_polars.__version__">__version__</a>

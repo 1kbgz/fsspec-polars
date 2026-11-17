@@ -1,0 +1,71 @@
+fsspec_polars.paths
+===================
+
+.. py:module:: fsspec_polars.paths
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   fsspec_polars.paths._READERS
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   fsspec_polars.paths.scan_path
+   fsspec_polars.paths._resolve
+   fsspec_polars.paths._database_protocol
+   fsspec_polars.paths._scan_source
+   fsspec_polars.paths._on_one_thread
+   fsspec_polars.paths._source_frames
+   fsspec_polars.paths._scan_file
+
+
+Module Contents
+---------------
+
+.. py:function:: scan_path(path: str | os.PathLike[str], *, storage_options: collections.abc.Mapping[str, Any] | None = None) -> polars.LazyFrame
+
+   Scan the table behind ``path`` as a Polars LazyFrame.
+
+   ``path`` is a local path, which may be on an fsspec-fuse mount, or an fsspec URL such as
+   ``dataview://main/orders.parquet::db+sqlite:///shop.db``. Paths rendered by a data view
+   resolve to the node they come from, so a scan of a mounted ``orders.parquet`` reads the
+   database relation instead of the file. Database relations take projection, predicate,
+   and row-limit pushdown through ``scan_db_relation``; other sources apply them locally.
+
+
+.. py:function:: _resolve(path: str | os.PathLike[str], storage_options: collections.abc.Mapping[str, Any] | None) -> tuple[Any, str]
+
+.. py:function:: _database_protocol(fs: Any) -> str | None
+
+.. py:function:: _scan_source(source: fsspec_data.DataSource, path: str) -> polars.LazyFrame
+
+.. py:function:: _on_one_thread(frames: collections.abc.Callable[[], collections.abc.Iterator[polars.DataFrame]]) -> collections.abc.Iterator[polars.DataFrame]
+
+   Runs ``frames`` on one thread of its own and yields what it produces.
+
+   Polars may advance an I/O source from a different worker thread for each batch, and some
+   sources only work on the thread that created them: fsspec-data's native streams abort the
+   process otherwise, and sqlite3 connections raise.
+
+
+.. py:function:: _source_frames(source: fsspec_data.DataSource, path: str, with_columns: list[str] | None, predicate: polars.Expr | None, n_rows: int | None, batch_size: int | None) -> collections.abc.Iterator[polars.DataFrame]
+
+   Frames of ``path`` with projection, predicate, and row limit applied batch by batch.
+   The source applies the row limit itself only when there is no predicate.
+
+
+.. py:data:: _READERS
+
+.. py:function:: _scan_file(fs: Any, path: str) -> polars.LazyFrame
+
+   Reads a rendered file in full. Used when the view applies schema options, so its rows
+   differ from the source's and cannot be pushed down.
+
+

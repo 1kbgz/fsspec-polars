@@ -24,6 +24,25 @@ Optimizer hints replace existing `columns`, `where`, and `limit` query parameter
 other query parameters remain. Original values of those three keys are not source
 constraints.
 
+## `scan_path`
+
+```python
+scan_path(path, *, storage_options=None)
+```
+
+| Parameter                          | Meaning                                                         |
+| ---------------------------------- | --------------------------------------------------------------- |
+| `path: str \| os.PathLike`         | Local path, possibly on an fsspec-fuse mount, or an fsspec URL. |
+| `storage_options: Mapping \| None` | Options for opening a URL, such as `dataview` schema options.   |
+
+A local path on a mount made in this process, or carrying `user.fsspec.url`, resolves
+through `fsspec_fuse.resolve` when fsspec-fuse is installed; other local paths open with
+fsspec. A path rendered by a `dataview` resolves to its node: a database relation scans
+through `scan_db_relation` with pushdown, and other table nodes scan through the source's
+`DataSource.scan`, with projection, predicate, and row limit applied locally. A view with
+schema options (`converts`) is read through its rendered file instead, since its rows differ
+from the source's. A rendered path that is not a table raises `ValueError`.
+
 ## `scan_db_sql`
 
 ```python

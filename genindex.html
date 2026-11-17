@@ -517,6 +517,11 @@ window.runMermaid = runMermaid;</script>
     </a>
   </li>
   <li class="fd-tree-item">
+    <a class="fd-link" href="autoapi/test_paths/index.html">
+      <span class="fd-link-text">test_paths</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
     <a class="fd-link" href="autoapi/test_kafka/index.html">
       <span class="fd-link-text">test_kafka</span>
     </a>
@@ -539,6 +544,11 @@ window.runMermaid = runMermaid;</script>
   <li class="fd-tree-item">
     <a class="fd-link" href="autoapi/fsspec_polars/kafka/index.html">
       <span class="fd-link-text">fsspec_polars.kafka</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
+    <a class="fd-link" href="autoapi/fsspec_polars/paths/index.html">
+      <span class="fd-link-text">fsspec_polars.paths</span>
     </a>
   </li>
 </ul>
@@ -600,6 +610,8 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="autoapi/fsspec_polars/kafka/index.html#fsspec_polars.kafka._conjuncts">_conjuncts() (in module fsspec_polars.kafka)</a>
 </li>
+      <li><a href="autoapi/fsspec_polars/paths/index.html#fsspec_polars.paths._database_protocol">_database_protocol() (in module fsspec_polars.paths)</a>
+</li>
       <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._dialect_from_protocol">_dialect_from_protocol() (in module fsspec_polars.db)</a>
 </li>
       <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._filesystem">_filesystem() (in module fsspec_polars.db)</a>
@@ -612,23 +624,35 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._normalize_predicate">_normalize_predicate() (in module fsspec_polars.db)</a>
 </li>
+      <li><a href="autoapi/fsspec_polars/paths/index.html#fsspec_polars.paths._on_one_thread">_on_one_thread() (in module fsspec_polars.paths)</a>
+</li>
       <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._PATH_QUERY_KEYS">_PATH_QUERY_KEYS (in module fsspec_polars.db)</a>
+</li>
+      <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._predicate_to_sql">_predicate_to_sql() (in module fsspec_polars.db)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._predicate_to_sql">_predicate_to_sql() (in module fsspec_polars.db)</a>
-</li>
       <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._read_arrow_frame">_read_arrow_frame() (in module fsspec_polars.db)</a>
 </li>
       <li><a href="autoapi/fsspec_polars/kafka/index.html#fsspec_polars.kafka._read_path">_read_path() (in module fsspec_polars.kafka)</a>
+</li>
+      <li><a href="autoapi/fsspec_polars/paths/index.html#fsspec_polars.paths._READERS">_READERS (in module fsspec_polars.paths)</a>
 </li>
       <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._relation_arrow_path">_relation_arrow_path() (in module fsspec_polars.db)</a>
 </li>
       <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._RELATION_EXTENSIONS">_RELATION_EXTENSIONS (in module fsspec_polars.db)</a>
 </li>
+      <li><a href="autoapi/fsspec_polars/paths/index.html#fsspec_polars.paths._resolve">_resolve() (in module fsspec_polars.paths)</a>
+</li>
+      <li><a href="autoapi/fsspec_polars/paths/index.html#fsspec_polars.paths._scan_file">_scan_file() (in module fsspec_polars.paths)</a>
+</li>
+      <li><a href="autoapi/fsspec_polars/paths/index.html#fsspec_polars.paths._scan_source">_scan_source() (in module fsspec_polars.paths)</a>
+</li>
       <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._schema_from_relation">_schema_from_relation() (in module fsspec_polars.db)</a>
 </li>
       <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._schema_from_sql">_schema_from_sql() (in module fsspec_polars.db)</a>
+</li>
+      <li><a href="autoapi/fsspec_polars/paths/index.html#fsspec_polars.paths._source_frames">_source_frames() (in module fsspec_polars.paths)</a>
 </li>
       <li><a href="autoapi/fsspec_polars/db/index.html#fsspec_polars.db._sql_with_pushdowns">_sql_with_pushdowns() (in module fsspec_polars.db)</a>
 </li>
@@ -700,8 +724,6 @@ window.runMermaid = runMermaid;</script>
         <li><a href="autoapi/test_kafka/index.html#test_kafka.FakeKafkaFileSystem.frame">(test_kafka.FakeKafkaFileSystem attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     fsspec_polars
 
@@ -709,6 +731,8 @@ window.runMermaid = runMermaid;</script>
         <li><a href="autoapi/fsspec_polars/index.html#module-fsspec_polars">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     fsspec_polars.db
 
@@ -721,6 +745,13 @@ window.runMermaid = runMermaid;</script>
 
       <ul>
         <li><a href="autoapi/fsspec_polars/kafka/index.html#module-fsspec_polars.kafka">module</a>
+</li>
+      </ul></li>
+      <li>
+    fsspec_polars.paths
+
+      <ul>
+        <li><a href="autoapi/fsspec_polars/paths/index.html#module-fsspec_polars.paths">module</a>
 </li>
       </ul></li>
   </ul></td>
@@ -737,6 +768,8 @@ window.runMermaid = runMermaid;</script>
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/test_paths/index.html#test_paths.memory">memory() (in module test_paths)</a>
+</li>
       <li>
     module
 
@@ -747,9 +780,13 @@ window.runMermaid = runMermaid;</script>
 </li>
         <li><a href="autoapi/fsspec_polars/kafka/index.html#module-fsspec_polars.kafka">fsspec_polars.kafka</a>
 </li>
+        <li><a href="autoapi/fsspec_polars/paths/index.html#module-fsspec_polars.paths">fsspec_polars.paths</a>
+</li>
         <li><a href="autoapi/test_all/index.html#module-test_all">test_all</a>
 </li>
         <li><a href="autoapi/test_kafka/index.html#module-test_kafka">test_kafka</a>
+</li>
+        <li><a href="autoapi/test_paths/index.html#module-test_paths">test_paths</a>
 </li>
       </ul></li>
   </ul></td>
@@ -826,6 +863,12 @@ window.runMermaid = runMermaid;</script>
         <li><a href="autoapi/fsspec_polars/kafka/index.html#fsspec_polars.kafka.scan_kafka">(in module fsspec_polars.kafka)</a>
 </li>
       </ul></li>
+      <li><a href="autoapi/fsspec_polars/index.html#fsspec_polars.scan_path">scan_path() (in module fsspec_polars)</a>
+
+      <ul>
+        <li><a href="autoapi/fsspec_polars/paths/index.html#fsspec_polars.paths.scan_path">(in module fsspec_polars.paths)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -846,7 +889,16 @@ window.runMermaid = runMermaid;</script>
         <li><a href="autoapi/test_kafka/index.html#module-test_kafka">module</a>
 </li>
       </ul></li>
+      <li>
+    test_paths
+
+      <ul>
+        <li><a href="autoapi/test_paths/index.html#module-test_paths">module</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/test_kafka/index.html#test_kafka.test_predicates_narrow_only_what_they_bound">test_predicates_narrow_only_what_they_bound() (in module test_kafka)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_rendered_files_are_read_by_their_format">test_rendered_files_are_read_by_their_format() (in module test_paths)</a>
 </li>
       <li><a href="autoapi/test_all/index.html#test_all.test_scan_db_relation_filters_locally_when_predicate_is_not_supported">test_scan_db_relation_filters_locally_when_predicate_is_not_supported() (in module test_all)</a>
 </li>
@@ -860,14 +912,14 @@ window.runMermaid = runMermaid;</script>
 </li>
       <li><a href="autoapi/test_all/index.html#test_all.test_scan_db_sql_filters_locally_when_sql_pushdown_fails">test_scan_db_sql_filters_locally_when_sql_pushdown_fails() (in module test_all)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/test_all/index.html#test_all.test_scan_db_sql_uses_query_pushdown">test_scan_db_sql_uses_query_pushdown() (in module test_all)</a>
 </li>
       <li><a href="autoapi/test_kafka/index.html#test_kafka.test_scan_kafka_filters_what_it_cannot_push_down">test_scan_kafka_filters_what_it_cannot_push_down() (in module test_kafka)</a>
 </li>
       <li><a href="autoapi/test_kafka/index.html#test_kafka.test_scan_kafka_pushes_partition_and_offset_bounds">test_scan_kafka_pushes_partition_and_offset_bounds() (in module test_kafka)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/test_kafka/index.html#test_kafka.test_scan_kafka_reads_every_partition">test_scan_kafka_reads_every_partition() (in module test_kafka)</a>
 </li>
       <li><a href="autoapi/test_kafka/index.html#test_kafka.test_scan_kafka_reads_from_a_timestamp">test_scan_kafka_reads_from_a_timestamp() (in module test_kafka)</a>
@@ -879,6 +931,26 @@ window.runMermaid = runMermaid;</script>
       <li><a href="autoapi/test_kafka/index.html#test_kafka.test_scan_kafka_source_runs_on_the_calling_thread">test_scan_kafka_source_runs_on_the_calling_thread() (in module test_kafka)</a>
 </li>
       <li><a href="autoapi/test_kafka/index.html#test_kafka.test_scan_kafka_stops_reading_partitions_at_the_row_limit">test_scan_kafka_stops_reading_partitions_at_the_row_limit() (in module test_kafka)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_scan_path_pushes_queries_on_database_views_to_the_database">test_scan_path_pushes_queries_on_database_views_to_the_database() (in module test_paths)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_scan_path_reads_converted_views_through_the_rendered_file">test_scan_path_reads_converted_views_through_the_rendered_file() (in module test_paths)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_scan_path_reads_local_files">test_scan_path_reads_local_files() (in module test_paths)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_scan_path_reads_local_files_without_fsspec_fuse">test_scan_path_reads_local_files_without_fsspec_fuse() (in module test_paths)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_scan_path_reads_the_node_behind_a_rendered_file">test_scan_path_reads_the_node_behind_a_rendered_file() (in module test_paths)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_scan_path_rejects_files_that_are_not_tables">test_scan_path_rejects_files_that_are_not_tables() (in module test_paths)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_scan_path_resolves_mounted_paths">test_scan_path_resolves_mounted_paths() (in module test_paths)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_source_errors_reach_the_scan">test_source_errors_reach_the_scan() (in module test_paths)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_source_frames_apply_projection_predicate_and_limit_per_batch">test_source_frames_apply_projection_predicate_and_limit_per_batch() (in module test_paths)</a>
+</li>
+      <li><a href="autoapi/test_paths/index.html#test_paths.test_sources_are_read_on_one_thread_however_polars_advances_them">test_sources_are_read_on_one_thread_however_polars_advances_them() (in module test_paths)</a>
 </li>
       <li><a href="autoapi/test_all/index.html#test_all.test_sql_pushdown_helpers_use_polars_io_tools_when_installed">test_sql_pushdown_helpers_use_polars_io_tools_when_installed() (in module test_all)</a>
 </li>

@@ -113,6 +113,11 @@
     </a>
   </li>
   <li class="fd-tree-item">
+    <a class="fd-link" href="../autoapi/test_paths/index.html">
+      <span class="fd-link-text">test_paths</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
     <a class="fd-link" href="../autoapi/test_kafka/index.html">
       <span class="fd-link-text">test_kafka</span>
     </a>
@@ -135,6 +140,11 @@
   <li class="fd-tree-item">
     <a class="fd-link" href="../autoapi/fsspec_polars/kafka/index.html">
       <span class="fd-link-text">fsspec_polars.kafka</span>
+    </a>
+  </li>
+  <li class="fd-tree-item">
+    <a class="fd-link" href="../autoapi/fsspec_polars/paths/index.html">
+      <span class="fd-link-text">fsspec_polars.paths</span>
     </a>
   </li>
 </ul>
@@ -169,6 +179,9 @@
   </li>
   <li class="fd-toc-item" data-depth="1">
     <a href="#reuse-a-filesystem-and-schema">Reuse a filesystem and schema</a>
+  </li>
+  <li class="fd-toc-item" data-depth="1">
+    <a href="#scan-a-mounted-or-viewed-file">Scan a mounted or viewed file</a>
   </li>
   <li class="fd-toc-item" data-depth="1">
     <a href="#enable-sql-translation">Enable SQL translation</a>
@@ -221,6 +234,23 @@ your <code class="docutils literal notranslate"><span class="pre">fsspec-db</spa
 </div>
 <p>Match the schema to the actual source columns and dtypes. Keep the filesystem alive
 until collection completes.</p>
+</section>
+<section id="scan-a-mounted-or-viewed-file">
+<h2>Scan a mounted or viewed file<a class="headerlink" href="#scan-a-mounted-or-viewed-file" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">scan_path</span></code> takes a local path or URL and scans the table behind it. A file rendered by an
+fsspec-data view, directly or through an fsspec-fuse mount, scans its source, so filters on a
+mounted database view reach the database:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fsspec_fuse</span><span class="w"> </span><span class="kn">import</span> <span class="n">mount</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">fsspec_polars</span><span class="w"> </span><span class="kn">import</span> <span class="n">scan_path</span>
+
+<span class="k">with</span> <span class="n">mount</span><span class="p">(</span><span class="s2">"dataview::db+sqlite:///shop.db"</span><span class="p">,</span> <span class="s2">"/mnt/shop"</span><span class="p">):</span>
+    <span class="n">big</span> <span class="o">=</span> <span class="n">scan_path</span><span class="p">(</span><span class="s2">"/mnt/shop/main/orders.parquet"</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"amount"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The same scan works without a mount:
+<code class="docutils literal notranslate"><span class="pre">scan_path(&quot;dataview://main/orders.parquet::db+sqlite:///shop.db&quot;)</span></code>.</p>
 </section>
 <section id="enable-sql-translation">
 <h2>Enable SQL translation<a class="headerlink" href="#enable-sql-translation" title="Link to this heading">¶</a></h2>
@@ -280,6 +310,9 @@ for the resulting read costs and the <a class="reference internal" href="referen
   </li>
   <li class="fd-toc-item" data-depth="1">
     <a href="#reuse-a-filesystem-and-schema">Reuse a filesystem and schema</a>
+  </li>
+  <li class="fd-toc-item" data-depth="1">
+    <a href="#scan-a-mounted-or-viewed-file">Scan a mounted or viewed file</a>
   </li>
   <li class="fd-toc-item" data-depth="1">
     <a href="#enable-sql-translation">Enable SQL translation</a>
