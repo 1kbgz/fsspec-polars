@@ -1,0 +1,167 @@
+import sqlite3
+import sys
+import threading
+import types
+from urllib.parse import parse_qsl, urlsplit
+
+import fsspec
+import polars as pl
+import pyarrow as pa
+import pytest
+from fsspec_data import DataSource, DataViewFileSystem, FileDataSource
+
+import fsspec_polars.paths as paths_mod
+from fsspec_polars import scan_path
+
+
+@pytest.fixture
+def memory():
+    fs = fsspec.filesystem("memory")
+    fs.store.clear()
+    fs.pipe_file("/data/orders.csv", b"id,customer,amount\n1,a,10\n2,b,20\n3,a,5\n")
+    return fs
+
+
+def test_scan_path_reads_local_files(tmp_path):
+    (tmp_path / "orders.csv").write_text("id,customer\n1,a\n2,b\n")
+
+    frame = scan_path(tmp_path / "orders.csv").filter(pl.col("customer") == "b").collect()
+
+    assert frame.to_dict(as_series=False) == {"id": [2], "customer": ["b"]}
+
+
+def test_scan_path_reads_the_node_behind_a_rendered_file(memory):
+    frame = scan_path("dataview://orders.parquet::memory:///data").filter(pl.col("customer") == "a").select("amount").head(1).collect()
+
+    assert frame.to_dict(as_series=False) == {"amount": [10]}
+
+
+def test_scan_path_reads_converted_views_through_the_rendered_file(memory):
+    if not hasattr(DataViewFileSystem, "converts"):
+        pytest.skip("needs fsspec-data with view schema options")
+    frame = scan_path(
+        "dataview://orders.parquet::memory:///data",
+        storage_options={"requested_schema": {"fields": [{"name": "amount", "type": "int64"}]}, "schema_policy": "projection"},
+    ).collect()
+
+    assert frame.to_dict(as_series=False) == {"amount": [10, 20, 5]}
+
+
+def test_scan_path_rejects_files_that_are_not_tables(memory):
+    with pytest.raises(ValueError, match="renders metadata, not a table"):
+        scan_path("dataview://orders.metadata.json::memory:///data")
+
+
+def test_scan_path_resolves_mounted_paths(memory, monkeypatch, tmp_path):
+    view = DataViewFileSystem("/data", fs=memory)
+    mounted = tmp_path / "mnt" / "orders.parquet"
+    fuse = types.ModuleType("fsspec_fuse")
+
+    def resolve(path):
+        if path != str(mounted):
+            raise ValueError(path)
+        return view, "orders.parquet"
+
+    fuse.resolve = resolve
+    monkeypatch.setitem(sys.modules, "fsspec_fuse", fuse)
+
+    assert scan_path(mounted).select(pl.col("amount").sum()).collect().item() == 35
+    (tmp_path / "local.csv").write_text("id\n1\n")
+    assert scan_path(tmp_path / "local.csv").collect().height == 1
+
+
+def test_scan_path_pushes_queries_on_database_views_to_the_database(tmp_path, monkeypatch):
+    fsspec_db = pytest.importorskip("fsspec_db")
+    if not issubclass(fsspec_db.SQLiteDatabaseFileSystem, DataSource):
+        pytest.skip("needs fsspec-db with data source support")
+    pytest.importorskip("polars_io_tools")
+    database = tmp_path / "shop.db"
+    with sqlite3.connect(database) as connection:
+        connection.executescript(
+            """
+            CREATE TABLE orders (id INTEGER PRIMARY KEY, customer TEXT, amount REAL);
+            INSERT INTO orders VALUES (1, 'a', 10), (2, 'b', 20), (3, 'a', 5);
+            """
+        )
+    reads = []
+    cat_file = fsspec_db.SQLiteDatabaseFileSystem.cat_file
+
+    def recording_cat_file(self, path, *args, **kwargs):
+        reads.append(path)
+        return cat_file(self, path, *args, **kwargs)
+
+    monkeypatch.setattr(fsspec_db.SQLiteDatabaseFileSystem, "cat_file", recording_cat_file)
+
+    frame = (
+        scan_path(f"dataview://main/orders.parquet::db+sqlite://{database}", storage_options={"skip_instance_cache": True})
+        .filter(pl.col("amount") > 8)
+        .select("customer")
+        .collect()
+    )
+
+    assert frame.to_dict(as_series=False) == {"customer": ["a", "b"]}
+    query = dict(parse_qsl(urlsplit(reads[-1]).query))
+    assert urlsplit(reads[-1]).path == "/main/orders.arrow"
+    assert set(query["columns"].split(",")) == {"customer", "amount"}
+    assert "amount" in query["where"]
+
+
+def test_source_frames_apply_projection_predicate_and_limit_per_batch(memory):
+    source = FileDataSource(memory)
+    frames = list(paths_mod._source_frames(source, "/data/orders.csv", ["amount"], pl.col("customer") == "a", 1, 1))
+
+    assert pl.concat(frames).to_dicts() == [{"amount": 10}]
+    assert pl.concat(paths_mod._source_frames(source, "/data/orders.csv", None, None, 2, 1)).height == 2
+
+
+def test_rendered_files_are_read_by_their_format(memory):
+    view = DataViewFileSystem("/data", fs=memory, mapping={"table": ["parquet", "csv", "jsonl", "json", "arrow", "avro"]})
+
+    for name in ("orders.parquet", "orders.csv", "orders.jsonl", "orders.json", "orders.arrow"):
+        assert paths_mod._scan_file(view, name).collect().height == 3
+    with pytest.raises(ValueError, match="cannot scan avro files"):
+        paths_mod._scan_file(view, "orders.avro")
+
+
+def test_scan_path_reads_local_files_without_fsspec_fuse(tmp_path, monkeypatch):
+    monkeypatch.setitem(sys.modules, "fsspec_fuse", None)
+    (tmp_path / "orders.csv").write_text("id\n1\n2\n")
+
+    assert scan_path(str(tmp_path / "orders.csv")).collect().height == 2
+
+
+def test_sources_are_read_on_one_thread_however_polars_advances_them(monkeypatch):
+    threads = set()
+
+    class ThreadBound(DataSource):
+        def schema(self, path):
+            return pa.schema([("n", pa.int64())])
+
+        def scan(self, path, **options):
+            for n in range(3):
+                threads.add(threading.get_ident())
+                yield pa.record_batch([pa.array([n])], names=["n"])
+
+    monkeypatch.setattr(paths_mod, "register_io_source", lambda source, schema: source)
+    generator = paths_mod._scan_source(ThreadBound(), "x")(None, None, None, 1)
+    frames = []
+    for _ in range(3):
+        worker = threading.Thread(target=lambda: frames.append(next(generator)))
+        worker.start()
+        worker.join()
+
+    assert [frame.item() for frame in frames] == [0, 1, 2]
+    assert len(threads) == 1
+    assert threading.get_ident() not in threads
+
+
+def test_source_errors_reach_the_scan(memory):
+    class Failing(DataSource):
+        def schema(self, path):
+            return pa.schema([("n", pa.int64())])
+
+        def scan(self, path, **options):
+            raise OSError("source is gone")
+
+    with pytest.raises(Exception, match="source is gone"):
+        paths_mod._scan_source(Failing(), "x").collect()
