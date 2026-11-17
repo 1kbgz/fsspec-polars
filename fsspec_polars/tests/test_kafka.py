@@ -1,4 +1,3 @@
-import json
 from datetime import UTC, datetime, timedelta
 from typing import Any
 from urllib.parse import parse_qsl, urlsplit
@@ -42,17 +41,21 @@ class FakeKafkaFileSystem:
     def _strip_protocol(self, path):
         return path.removeprefix("kafka://")
 
+    def metadata(self, path):
+        assert path == "orders"
+        return {"partitions": [{"partition": 0, "low": 0, "high": 6}, {"partition": 1, "low": 0, "high": 3}]}
+
+    def offsets_for_time(self, path, time):
+        self.paths.append(f"offsets_for_time {path} {time.isoformat()}")
+        later = self.frame.filter(pl.col("timestamp") >= time)
+        return {partition: later.filter(pl.col("partition") == partition)["offset"].min() for partition in (0, 1)}
+
     def cat_file(self, path):
         self.paths.append(path)
-        if path == "orders/_meta/watermarks.json":
-            return json.dumps([{"partition": 0, "low": 0, "high": 6}, {"partition": 1, "low": 0, "high": 3}]).encode()
         parsed = urlsplit(path)
         params = {key: int(value) for key, value in parse_qsl(parsed.query)}
-        _, partition, *rest = parsed.path.removesuffix(".arrow").split("/")
+        _, partition = parsed.path.removesuffix(".arrow").split("/")
         frame = self.frame.filter(pl.col("partition") == int(partition))
-        if rest:
-            since = datetime.fromisoformat(rest[0].removeprefix("@"))
-            frame = frame.filter(pl.col("timestamp") >= since)
         start = params.get("start", 0)
         end = start + params["limit"] if "limit" in params else None
         frame = frame.filter(pl.col("offset") >= start)
@@ -62,7 +65,7 @@ class FakeKafkaFileSystem:
 
 
 def data_paths(fs):
-    return [path for path in fs.paths if "_meta" not in path and "limit=0" not in path]
+    return [path for path in fs.paths if "limit=0" not in path]
 
 
 def test_scan_kafka_reads_every_partition():
@@ -98,7 +101,7 @@ def test_scan_kafka_reads_from_a_timestamp():
     frame = scan_kafka("orders/0", filesystem=fs).filter(pl.col("timestamp") >= since).collect()
 
     assert frame["offset"].to_list() == [2, 3, 5]
-    assert data_paths(fs) == [f"orders/0/@{since.isoformat()}.arrow"]
+    assert data_paths(fs) == [f"offsets_for_time orders {since.isoformat()}", "orders/0.arrow?start=2&limit=4"]
 
 
 def test_scan_kafka_filters_what_it_cannot_push_down():
@@ -168,7 +171,7 @@ def test_scan_kafka_source_runs_on_the_calling_thread(monkeypatch):
     since = EPOCH + timedelta(seconds=1)
     batches = list(source(None, (pl.col("timestamp") > since) & (pl.col("offset") <= 5) & (5 >= pl.col("offset")), None, None))
     assert [batch["offset"].to_list() for batch in batches] == [[2, 3, 5], [2]]
-    assert data_paths(fs) == [f"orders/0/@{since.isoformat()}.arrow", f"orders/1/@{since.isoformat()}.arrow"]
+    assert data_paths(fs) == [f"offsets_for_time orders {since.isoformat()}", "orders/0.arrow?start=2&limit=4", "orders/1.arrow?start=1&limit=2"]
 
     fs.paths.clear()
     assert list(source(None, pl.col("offset") >= 10, None, None)) == []
