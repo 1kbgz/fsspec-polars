@@ -65,7 +65,9 @@ Package Contents
    ``dataview://main/orders.parquet::db+sqlite:///shop.db``. Paths rendered by a data view
    resolve to the node they come from, so a scan of a mounted ``orders.parquet`` reads the
    database relation instead of the file. Database relations take projection, predicate,
-   and row-limit pushdown through ``scan_db_relation``; other sources apply them locally.
+   and row-limit pushdown through ``scan_db_relation``. Other sources read only the columns
+   the scan needs and apply the row limit when there is no predicate; the predicate runs
+   locally.
 
 
 .. py:data:: __version__

@@ -290,7 +290,9 @@ narrow the read still apply. Pushdown needs the <code class="docutils literal no
 <code class="docutils literal notranslate"><span class="pre">dataview://main/orders.parquet::db+sqlite:///shop.db</span></code>. Paths rendered by a data view
 resolve to the node they come from, so a scan of a mounted <code class="docutils literal notranslate"><span class="pre">orders.parquet</span></code> reads the
 database relation instead of the file. Database relations take projection, predicate,
-and row-limit pushdown through <code class="docutils literal notranslate"><span class="pre">scan_db_relation</span></code>; other sources apply them locally.</p>
+and row-limit pushdown through <code class="docutils literal notranslate"><span class="pre">scan_db_relation</span></code>. Other sources read only the columns
+the scan needs and apply the row limit when there is no predicate; the predicate runs
+locally.</p>
 </dd></dl>
 
 <dl class="py data">

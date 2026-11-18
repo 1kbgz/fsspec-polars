@@ -37,7 +37,9 @@ Module Contents
    ``dataview://main/orders.parquet::db+sqlite:///shop.db``. Paths rendered by a data view
    resolve to the node they come from, so a scan of a mounted ``orders.parquet`` reads the
    database relation instead of the file. Database relations take projection, predicate,
-   and row-limit pushdown through ``scan_db_relation``; other sources apply them locally.
+   and row-limit pushdown through ``scan_db_relation``. Other sources read only the columns
+   the scan needs and apply the row limit when there is no predicate; the predicate runs
+   locally.
 
 
 .. py:function:: _resolve(path: str | os.PathLike[str], storage_options: collections.abc.Mapping[str, Any] | None) -> tuple[Any, str]
@@ -58,7 +60,8 @@ Module Contents
 .. py:function:: _source_frames(source: fsspec_data.DataSource, path: str, with_columns: list[str] | None, predicate: polars.Expr | None, n_rows: int | None, batch_size: int | None) -> collections.abc.Iterator[polars.DataFrame]
 
    Frames of ``path`` with projection, predicate, and row limit applied batch by batch.
-   The source applies the row limit itself only when there is no predicate.
+   The source reads only the projected columns and those the predicate uses, and applies the
+   row limit itself only when there is no predicate.
 
 
 .. py:data:: _READERS

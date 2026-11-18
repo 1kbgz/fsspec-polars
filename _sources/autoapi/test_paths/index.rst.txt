@@ -17,6 +17,7 @@ Functions
    test_paths.test_scan_path_resolves_mounted_paths
    test_paths.test_scan_path_pushes_queries_on_database_views_to_the_database
    test_paths.test_source_frames_apply_projection_predicate_and_limit_per_batch
+   test_paths.test_sources_read_only_the_projected_and_filtered_columns
    test_paths.test_rendered_files_are_read_by_their_format
    test_paths.test_scan_path_reads_local_files_without_fsspec_fuse
    test_paths.test_sources_are_read_on_one_thread_however_polars_advances_them
@@ -41,6 +42,8 @@ Module Contents
 .. py:function:: test_scan_path_pushes_queries_on_database_views_to_the_database(tmp_path, monkeypatch)
 
 .. py:function:: test_source_frames_apply_projection_predicate_and_limit_per_batch(memory)
+
+.. py:function:: test_sources_read_only_the_projected_and_filtered_columns(memory)
 
 .. py:function:: test_rendered_files_are_read_by_their_format(memory)
 

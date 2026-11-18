@@ -276,7 +276,9 @@
 <code class="docutils literal notranslate"><span class="pre">dataview://main/orders.parquet::db+sqlite:///shop.db</span></code>. Paths rendered by a data view
 resolve to the node they come from, so a scan of a mounted <code class="docutils literal notranslate"><span class="pre">orders.parquet</span></code> reads the
 database relation instead of the file. Database relations take projection, predicate,
-and row-limit pushdown through <code class="docutils literal notranslate"><span class="pre">scan_db_relation</span></code>; other sources apply them locally.</p>
+and row-limit pushdown through <code class="docutils literal notranslate"><span class="pre">scan_db_relation</span></code>. Other sources read only the columns
+the scan needs and apply the row limit when there is no predicate; the predicate runs
+locally.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -307,7 +309,8 @@ process otherwise, and sqlite3 connections raise.</p>
 <dt class="sig sig-object py" id="fsspec_polars.paths._source_frames">
 <span class="sig-prename descclassname"><span class="pre">fsspec_polars.paths.</span></span><span class="sig-name descname"><span class="pre">_source_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fsspec_data.DataSource</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">polars.Expr</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">collections.abc.Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">polars.DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/fsspec_polars/paths.html#_source_frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fsspec_polars.paths._source_frames" title="Link to this definition">¶</a></dt>
 <dd><p>Frames of <code class="docutils literal notranslate"><span class="pre">path</span></code> with projection, predicate, and row limit applied batch by batch.
-The source applies the row limit itself only when there is no predicate.</p>
+The source reads only the projected columns and those the predicate uses, and applies the
+row limit itself only when there is no predicate.</p>
 </dd></dl>
 
 <dl class="py data">
