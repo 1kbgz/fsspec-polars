@@ -114,6 +114,25 @@ def test_source_frames_apply_projection_predicate_and_limit_per_batch(memory):
     assert pl.concat(paths_mod._source_frames(source, "/data/orders.csv", None, None, 2, 1)).height == 2
 
 
+def test_sources_read_only_the_projected_and_filtered_columns(memory):
+    calls = []
+
+    class Recording(FileDataSource):
+        def scan_selected(self, path, **options):
+            calls.append(options)
+            return super().scan_selected(path, **options)
+
+    source = Recording(memory)
+    filtered = pl.concat(paths_mod._source_frames(source, "/data/orders.csv", ["amount"], pl.col("customer") == "a", None, 1024))
+    limited = pl.concat(paths_mod._source_frames(source, "/data/orders.csv", ["id"], None, 2, 1024))
+    everything = pl.concat(paths_mod._source_frames(source, "/data/orders.csv", None, None, None, 1024))
+
+    assert filtered.to_dicts() == [{"amount": 10}, {"amount": 5}]
+    assert limited.to_dicts() == [{"id": 1}, {"id": 2}]
+    assert everything.columns == ["id", "customer", "amount"]
+    assert [(call["columns"], call["row_limit"]) for call in calls] == [(["amount", "customer"], None), (["id"], 2), (None, None)]
+
+
 def test_rendered_files_are_read_by_their_format(memory):
     view = DataViewFileSystem("/data", fs=memory, mapping={"table": ["parquet", "csv", "jsonl", "json", "arrow", "avro"]})
 
