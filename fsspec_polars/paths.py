@@ -22,7 +22,9 @@ def scan_path(path: str | os.PathLike[str], *, storage_options: Mapping[str, Any
     ``dataview://main/orders.parquet::db+sqlite:///shop.db``. Paths rendered by a data view
     resolve to the node they come from, so a scan of a mounted ``orders.parquet`` reads the
     database relation instead of the file. Database relations take projection, predicate,
-    and row-limit pushdown through ``scan_db_relation``; other sources apply them locally.
+    and row-limit pushdown through ``scan_db_relation``. Other sources read only the columns
+    the scan needs and apply the row limit when there is no predicate; the predicate runs
+    locally.
     """
     fs, source_path = _resolve(path, storage_options)
     if isinstance(fs, DataViewFileSystem):
@@ -125,9 +127,15 @@ def _source_frames(
     batch_size: int | None,
 ) -> Iterator[pl.DataFrame]:
     """Frames of ``path`` with projection, predicate, and row limit applied batch by batch.
-    The source applies the row limit itself only when there is no predicate."""
+    The source reads only the projected columns and those the predicate uses, and applies the
+    row limit itself only when there is no predicate."""
+    columns = None
+    if with_columns is not None:
+        columns = list(with_columns)
+        if predicate is not None:
+            columns += [name for name in predicate.meta.root_names() if name not in columns]
     remaining = n_rows
-    stream = source.scan(path, batch_size=batch_size or 1024, row_limit=n_rows if predicate is None else None)
+    stream = source.scan_selected(path, columns=columns, batch_size=batch_size or 1024, row_limit=n_rows if predicate is None else None)
     for batch in stream:
         frame = _apply_local_frame_ops(pl.from_arrow(pa.Table.from_batches([batch])), with_columns, predicate, remaining)
         if remaining is not None:

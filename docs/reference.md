@@ -39,7 +39,9 @@ A local path on a mount made in this process, or carrying `user.fsspec.url`, res
 through `fsspec_fuse.resolve` when fsspec-fuse is installed; other local paths open with
 fsspec. A path rendered by a `dataview` resolves to its node: a database relation scans
 through `scan_db_relation` with pushdown, and other table nodes scan through the source's
-`DataSource.scan`, with projection, predicate, and row limit applied locally. A view with
+`DataSource.scan_selected`. The source reads only the projected columns and the columns the
+predicate uses, and applies the row limit when there is no predicate; the predicate and
+the final projection run locally. A view with
 schema options (`converts`) is read through its rendered file instead, since its rows differ
 from the source's. A rendered path that is not a table raises `ValueError`.
 
